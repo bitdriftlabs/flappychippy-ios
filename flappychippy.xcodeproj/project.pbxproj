@@ -8,18 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		5BB004BF2DD2573F00C4F4EC /* Capture in Frameworks */ = {isa = PBXBuildFile; productRef = 5BB004BE2DD2573F00C4F4EC /* Capture */; };
-		5BC96C042DD2B0BB0053A841 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 5BC96C032DD2B0BB0053A841 /* fonts */; };
-		5BF1CE102DD30DBE00F79D05 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 5BF1CE0F2DD30DBE00F79D05 /* sounds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5BB004A32DD2565300C4F4EC /* flappychippy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flappychippy.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BC96C032DD2B0BB0053A841 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		5BF1CE0F2DD30DBE00F79D05 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5BF1CE5C2DD3217800F79D05 /* Exceptions for "flappychippy" folder in "flappychippy" target */ = {
+		5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "flappychippy" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -29,12 +25,21 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5BF1CE4D2DD3217700F79D05 /* flappychippy */ = {
+		5BF1CE4D2DD3217700F79D05 /* Source */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		5BF1CE802DD3232700F79D05 /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5BF1CE5C2DD3217800F79D05 /* Exceptions for "flappychippy" folder in "flappychippy" target */,
+				5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "flappychippy" target */,
 			);
-			path = flappychippy;
+			explicitFolders = (
+				fonts,
+				sounds,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -54,9 +59,8 @@
 		5BB0049A2DD2565300C4F4EC = {
 			isa = PBXGroup;
 			children = (
-				5BF1CE0F2DD30DBE00F79D05 /* sounds */,
-				5BC96C032DD2B0BB0053A841 /* fonts */,
-				5BF1CE4D2DD3217700F79D05 /* flappychippy */,
+				5BF1CE802DD3232700F79D05 /* Resources */,
+				5BF1CE4D2DD3217700F79D05 /* Source */,
 				5BB004A42DD2565300C4F4EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,7 +89,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5BF1CE4D2DD3217700F79D05 /* flappychippy */,
+				5BF1CE4D2DD3217700F79D05 /* Source */,
+				5BF1CE802DD3232700F79D05 /* Resources */,
 			);
 			name = flappychippy;
 			packageProductDependencies = (
@@ -137,8 +142,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BF1CE102DD30DBE00F79D05 /* sounds in Resources */,
-				5BC96C042DD2B0BB0053A841 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +286,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7S42TTCDGV;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = flappychippy/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Flappy Chippy";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -315,7 +318,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7S42TTCDGV;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = flappychippy/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Flappy Chippy";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

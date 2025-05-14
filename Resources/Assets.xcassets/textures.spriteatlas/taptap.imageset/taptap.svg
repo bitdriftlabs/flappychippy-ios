@@ -1,0 +1,24 @@
+<svg width="114" height="60" viewBox="0 0 114 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M78 32V30H110V44H78V42H76V40H74V38H72V36H74V34H76V32H78Z" fill="white"/>
+<rect x="80" y="28" width="34" height="18" fill="white"/>
+<path d="M80 32V30H112V44H80V42H78V40H76V38H74V36H76V34H78V32H80Z" fill="#FF290D"/>
+<path d="M90 34H88V42H86V34H84V32H90V34Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M98 34H100V42H98V40H94V42H92V34H94V32H98V34ZM94 34V38H98V34H94Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M108 34H110V38H108V40H104V42H102V32H108V34ZM104 34V38H108V34H104Z" fill="white"/>
+<path d="M52 36H54V34H58V36H60V42H64V44H66V46H68V56H66V60H54V56H52V54H50V52H48V46H50V44H52V36Z" fill="#543847"/>
+<path d="M54 50V38H58V46H64V48H66V56H64V58H56V56H54V54H52V50H54Z" fill="#D6D6D6"/>
+<path d="M54 48V36H58V44H64V46H66V54H64V56H56V54H54V52H50V46H52V48H54Z" fill="white"/>
+<rect x="54" y="24" width="2" height="6" fill="#543847"/>
+<rect x="60" y="30" width="2" height="2" fill="#543847"/>
+<rect x="62" y="28" width="2" height="2" fill="#543847"/>
+<rect x="48" y="30" width="2" height="2" fill="#543847"/>
+<rect x="46" y="28" width="2" height="2" fill="#543847"/>
+<rect width="34" height="18" transform="matrix(-1 0 0 1 34 28)" fill="white"/>
+<path d="M36 32V30H4V44H36V42H38V40H40V38H42V36H40V34H38V32H36Z" fill="white"/>
+<path d="M34 32V30H2V44H34V42H36V40H38V38H40V36H38V34H36V32H34Z" fill="#FF290D"/>
+<path d="M10 34H8V42H6V34H4V32H10V34Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18 34H20V42H18V40H14V42H12V34H14V32H18V34ZM14 34V38H18V34H14Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M28 34H30V38H28V40H24V42H22V32H28V34ZM24 34V38H28V34H24Z" fill="white"/>
+<path d="M60 6H62V8H60V14H50V8H48V6H50V4H52V2H54V0H56V2H58V4H60V6Z" fill="#543847"/>
+<path d="M58 8V12H52V8H50V6H52V4H54V2H56V4H58V6H60V8H58Z" fill="#D9D9D9"/>
+</svg>

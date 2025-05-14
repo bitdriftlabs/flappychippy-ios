@@ -1,6 +1,7 @@
-import Capture
-import UIKit
 import AVFoundation
+import Capture
+import SpriteKit
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             Logger.logError("Cannot activate audio session: \(error)")
         }
+
+        SKTextureAtlas.game.preload {}
+        DispatchQueue.global(qos: .background).async(execute: Sound.preload)
 
         return true
     }
