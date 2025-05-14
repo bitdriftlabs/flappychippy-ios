@@ -20,7 +20,7 @@ enum LayerPriority {
 }
 
 private enum GameState {
-    case playing, gameover, taptap
+    case playing, gameover, taptap, onboarding
 }
 
 final class GameScene: SKScene {
@@ -32,9 +32,23 @@ final class GameScene: SKScene {
     private lazy var scoreLabel = self.childNode(withName: "//score") as! LabelWithShadowNode
     private lazy var gameOver = self.childNode(withName: "//game-over") as! SKSpriteNode
 
+    private var onboarding: OnboardingNode?
     private var touchedButton: ButtonNode?
-    private var state: GameState = .taptap
+    private var state: GameState = .onboarding
     private var score = 0
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        let ref = self.childNode(withName: "//onboarding")
+        self.onboarding = ref?.childNode(withName: "//root") as? OnboardingNode
+        self.onboarding?.removeFromParent()
+        ref?.removeFromParent()
+
+        if let onboarding = self.onboarding {
+            self.addChild(onboarding)
+        }
+    }
 
     override func didMove(to view: SKView) {
         self.gameOver.removeFromParent()
@@ -42,6 +56,10 @@ final class GameScene: SKScene {
         self.bgNode.loop()
         self.chippy.flap()
         self.chippy.float()
+        self.chippy.position.x = 0
+        self.scoreLabel.removeFromParent()
+        self.taptap.removeFromParent()
+        self.getReady.removeFromParent()
         self.physicsWorld.contactDelegate = self
     }
 
@@ -56,6 +74,14 @@ final class GameScene: SKScene {
         let rotationPercent = (rotation - kMinChippyAngle) / (kMaxChippyAngle - kMinChippyAngle)
         self.chippy.run(.rotate(toAngle: rotation, duration: 0.1))
         self.chippy.speed = 1 + rotationPercent
+    }
+
+    private func showTapTap() {
+        self.state = .taptap
+        self.taptap.animateIn(in: self)
+        self.getReady.animateIn(in: self)
+        self.scoreLabel.animateIn(in: self)
+        self.chippy.run(.moveTo(x: -self.size.width / 4, duration: 0.4))
     }
 
     private func moveLogs() {
@@ -127,6 +153,7 @@ final class GameScene: SKScene {
 
         self.scoreLabel.animateOut()
         self.gameOver.animateIn(in: self)
+        self.onboarding?.showScoresUI()
 
         self.bgNode.stop()
         self.logs.children.forEach { $0.removeAllActions() }
@@ -161,14 +188,21 @@ extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         switch self.state {
         case .playing: self.jump()
-        case .gameover: SKScene.present(named: "GameScene", from: self)
+        case .gameover: self.showTapTap()
         case .taptap: self.startNewGame()
+        case .onboarding: break
         }
     }
 }
 
-extension SKPhysicsContact {
-    func category(is mask: UInt32) -> Bool {
-        self.bodyA.categoryBitMask & mask == mask || self.bodyB.categoryBitMask & mask == mask
+extension GameScene: TouchReceiver {
+    func onTouch(on button: ButtonNode) {
+        let sceneButton = button.name.flatMap { SceneButton(rawValue: $0) }
+        if sceneButton == .play {
+            FlashNode(color: .white, in: self)
+                .flash(fadeInDuration: 0.1, peakAlpha: 0.9, fadeOutDuration: 0.25)
+
+            self.showTapTap()
+        }
     }
 }

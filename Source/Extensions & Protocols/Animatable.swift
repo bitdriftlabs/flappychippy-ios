@@ -12,7 +12,7 @@ extension Animatable where Self: SKNode {
 extension Animatable {
     var scale: CGFloat? {
         get { self.node.userData?["scale"] as? CGFloat }
-        set { self.node.userData?["scale"] = newValue }
+        set { self.node.userData = newValue != nil ? ["scale": newValue ?? 1] : nil }
     }
 
     func animateIn(in node: SKNode) {
