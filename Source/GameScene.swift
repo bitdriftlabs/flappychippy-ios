@@ -35,7 +35,9 @@ final class GameScene: SKScene {
     private var onboarding: OnboardingNode?
     private var touchedButton: ButtonNode?
     private var state: GameState = .onboarding
-    private var score = 0
+    private var score = 0 {
+        didSet { self.scoreLabel.text = "\(self.score)" }
+    }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -78,10 +80,14 @@ final class GameScene: SKScene {
 
     private func showTapTap() {
         self.state = .taptap
+        self.logs.children.forEach { $0.removeFromParent() }
+        self.gameOver.animateOut()
         self.taptap.animateIn(in: self)
         self.getReady.animateIn(in: self)
         self.scoreLabel.animateIn(in: self)
-        self.chippy.run(.moveTo(x: -self.size.width / 4, duration: 0.4))
+        self.chippy.run(.move(to: CGPoint(x: -self.size.width / 4, y: 0), duration: 0.4))
+        self.chippy.float()
+        self.chippy.flap()
     }
 
     private func moveLogs() {
@@ -105,7 +111,6 @@ final class GameScene: SKScene {
     }
 
     private func startNewGame() {
-        self.score = 0
         FlashNode(color: .black, in: self)
             .flash(fadeInDuration: 0.25, peakAlpha: 1.0, fadeOutDuration: 0.25)
 
@@ -137,7 +142,6 @@ final class GameScene: SKScene {
 
     private func incrementScore() {
         self.score += 1
-        self.scoreLabel.text = "\(self.score)"
         self.scoreLabel.pop()
         Sound.point.play()
         Sound.impact.impactOccurred()
@@ -165,6 +169,8 @@ final class GameScene: SKScene {
                 .run(Sound.die.play),
             ])
         )
+
+        self.score = 0
     }
 }
 
@@ -188,9 +194,8 @@ extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         switch self.state {
         case .playing: self.jump()
-        case .gameover: self.showTapTap()
         case .taptap: self.startNewGame()
-        case .onboarding: break
+        case .gameover, .onboarding: break
         }
     }
 }
