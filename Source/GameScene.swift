@@ -19,29 +19,25 @@ enum LayerPriority {
     static let flash = 10.0
 }
 
-struct CurrentGame {
-    fileprivate var playing: Bool
-    fileprivate var score: Int
+private enum GameState {
+    case playing, gameover, taptap
 }
 
 final class GameScene: SKScene {
     private lazy var bgNode = self.childNode(withName: "//background") as! BackgroundNode
     private lazy var chippy = self.childNode(withName: "//chippy") as! ChippyNode
     private lazy var logs = self.childNode(withName: "//logs")!
-    private lazy var taptap = self.childNode(withName: "//taptap") as! GameSpriteNode
-    private lazy var getReady = self.childNode(withName: "//get-ready") as! GameSpriteNode
-    private lazy var scoreLabel = self.childNode(withName: "//score-label") as! SKLabelNode
-    private lazy var scoreShadowLabel = self.childNode(withName: "//score-shadow") as! SKLabelNode
+    private lazy var taptap = self.childNode(withName: "//taptap") as! SKSpriteNode
+    private lazy var getReady = self.childNode(withName: "//get-ready") as! SKSpriteNode
+    private lazy var scoreLabel = self.childNode(withName: "//score") as! LabelWithShadowNode
+    private lazy var gameOver = self.childNode(withName: "//game-over") as! SKSpriteNode
 
     private var touchedButton: ButtonNode?
-    private var game = CurrentGame(playing: false, score: 0) {
-        didSet {
-            self.scoreLabel.text = "\(self.game.score)"
-            self.scoreShadowLabel.text = "\(self.game.score)"
-        }
-    }
+    private var state: GameState = .taptap
+    private var score = 0
 
     override func didMove(to view: SKView) {
+        self.gameOver.removeFromParent()
         self.bgNode.setupNodes(in: self)
         self.bgNode.loop()
         self.chippy.flap()
@@ -62,7 +58,7 @@ final class GameScene: SKScene {
         self.chippy.speed = 1 + rotationPercent
     }
 
-    private func movePipes() {
+    private func moveLogs() {
         let gapY = CGFloat.random(
             in: self.bgNode.groundY + kMinScreenPadding..<(self.size.height / 2) - kMinScreenPadding
         )
@@ -83,56 +79,65 @@ final class GameScene: SKScene {
     }
 
     private func startNewGame() {
-        self.game = CurrentGame(playing: false, score: 0)
+        self.score = 0
         FlashNode(color: .black, in: self)
             .flash(fadeInDuration: 0.25, peakAlpha: 1.0, fadeOutDuration: 0.25)
 
         self.addChildIfOrphaned(self.logs)
         self.chippy.float(on: false)
 
-        [self.taptap, self.getReady].forEach { $0.animate(in: false) }
+        [self.taptap, self.getReady].forEach { $0.animateOut() }
 
-        // Start moving pipes from left to right
+        // Start moving logs from left to right
         self.run(
             .repeatForever(
                 .sequence([
-                    .run(movePipes),
+                    .run(moveLogs),
                     .wait(forDuration: kTimeDistanceBetweenLogs),
                 ])
             ),
-            withKey: "pipes"
+            withKey: "logs"
         )
 
-        self.chippy.physicsBody?.isDynamic = true
-        self.game.playing = true
+        self.chippy.live()
+        self.state = .playing
     }
 
     private func jump() {
-        if self.chippy.position.y < (self.frame.height + 20) {
-            self.chippy.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            self.chippy.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 230))
+        if self.state == .playing && self.chippy.position.y < (self.frame.height + 20) {
+            self.chippy.jump()
         }
     }
 
-    private func gameOver() {
-        if !self.game.playing { return }
+    private func incrementScore() {
+        self.score += 1
+        self.scoreLabel.text = "\(self.score)"
+        self.scoreLabel.pop()
+        Sound.point.play()
+        Sound.impact.impactOccurred()
+    }
 
-        self.game.playing = false
+    private func endGame() {
+        if self.state != .playing { return }
+
+        self.state = .gameover
         Sound.notification.notificationOccurred(.error)
         FlashNode(color: .white, in: self)
             .flash(fadeInDuration: 0.1, peakAlpha: 0.9, fadeOutDuration: 0.25)
 
+        self.scoreLabel.animateOut()
+        self.gameOver.animateIn(in: self)
+
         self.bgNode.stop()
-        self.chippy.flap(on: false)
         self.logs.children.forEach { $0.removeAllActions() }
-        self.removeAction(forKey: "pipes")
+        self.removeAction(forKey: "logs")
         self.run(
             .sequence([
                 .run(Sound.hit.play),
                 .wait(forDuration: 0.3),
                 .run(Sound.die.play),
-            ]))
-        self.chippy.physicsBody?.isDynamic = false
+            ])
+        )
     }
 }
 
@@ -141,30 +146,23 @@ final class GameScene: SKScene {
 extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.category(is: Body.score) {
-            print("Score!!!", contact)
-            self.game.score += 1
-            self.scoreLabel.text = "\(self.game.score)"
-            Sound.impact.impactOccurred()
-            Sound.point.play()
-        } else if contact.category(is: Body.log) {
-            print("Log!!!", contact)
-
-            self.chippy.physicsBody?.velocity = .zero
-            self.chippy.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20))
-            self.gameOver()
+            self.incrementScore()
+        } else if self.state == .playing && contact.category(is: Body.log) {
+            self.endGame()
+            self.chippy.fall()
         } else if contact.category(is: Body.ground) {
-            print("Ground!!!", contact)
-            self.gameOver()
+            self.endGame()
+            self.chippy.die()
         }
     }
 }
 
 extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if self.game.playing {
-            self.jump()
-        } else {
-            self.startNewGame()
+        switch self.state {
+        case .playing: self.jump()
+        case .gameover: SKScene.present(named: "GameScene", from: self)
+        case .taptap: self.startNewGame()
         }
     }
 }

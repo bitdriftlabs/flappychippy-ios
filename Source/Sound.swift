@@ -13,7 +13,9 @@ enum Sound: String, CaseIterable {
     static let notification = UINotificationFeedbackGenerator()
 
     func play() {
-        Sound.soundCache[self.rawValue]?.play()
+        DispatchQueue.global(qos: .background).async {
+            Sound.soundCache[self.rawValue]?.play()
+        }
     }
 
     static func preload() {

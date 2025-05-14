@@ -34,9 +34,10 @@ final class LogNode: SKNode {
 
         let gapNode = SKNode()
         gapNode.name = "gap"
-        gapNode.position.y = topLog.position.y + (topLog.size.height / 2)
+        gapNode.position.y = y
         gapNode.physicsBody = SKPhysicsBody(
-            rectangleOf: CGSize(width: topLog.size.width, height: gapHeight)
+            rectangleOf: CGSize(width: topLog.size.width / 2, height: gapHeight),
+            center: CGPoint(x: topLog.size.width * 0.75, y: 0)
         )
         gapNode.physicsBody?.isDynamic = false
         gapNode.physicsBody?.categoryBitMask = CollisonMasks.score

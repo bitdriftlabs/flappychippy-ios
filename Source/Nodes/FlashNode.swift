@@ -13,6 +13,7 @@ final class FlashNode: SKShapeNode {
         fadeInDuration: TimeInterval, peakAlpha: CGFloat, fadeOutDuration: TimeInterval,
         onComplete: (() -> Void)? = nil
     ) {
+        print("RUNNING!")
         self.run(
             .sequence([
                 .fadeAlpha(to: peakAlpha, duration: fadeInDuration),

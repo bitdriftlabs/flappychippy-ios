@@ -16,7 +16,7 @@ final class OnboardingScene: SKScene {
     private lazy var ranking = self.childNode(withName: "//ranking") as! ButtonNode
     private lazy var play = self.childNode(withName: "//play") as! ButtonNode
     private lazy var code = self.childNode(withName: "//code") as! ButtonNode
-    private lazy var title = self.childNode(withName: "//title") as! GameSpriteNode
+    private lazy var title = self.childNode(withName: "//title") as! SKSpriteNode
 
     private var touchedButton: ButtonNode?
 
@@ -25,18 +25,6 @@ final class OnboardingScene: SKScene {
         self.bgNode.loop()
         self.chippy.flap()
         self.chippy.float()
-    }
-
-    private func startNewGame() {
-        guard let scene = SKScene(fileNamed: "GameScene") else {
-            return
-        }
-
-        FlashNode(color: .white, in: self)
-            .flash(fadeInDuration: 0.1, peakAlpha: 0.9, fadeOutDuration: 0.25) {
-                scene.scaleMode = .aspectFill
-                self.view?.presentScene(scene)
-            }
     }
 
     private func openRepository() {
@@ -53,7 +41,7 @@ extension OnboardingScene: TouchReceiver {
     func onTouch(on button: ButtonNode) {
         let sceneButton = button.name.flatMap { SceneButton(rawValue: $0) }
         switch sceneButton {
-        case .some(.play): startNewGame()
+        case .some(.play): SKScene.present(named: "GameScene", from: self)
         case .some(.code): openRepository()
         case .some(.ranking): showRanking()
         case .none: break

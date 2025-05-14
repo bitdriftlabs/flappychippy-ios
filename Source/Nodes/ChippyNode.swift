@@ -36,4 +36,27 @@ final class ChippyNode: SKSpriteNode {
             self.run(.repeatForever(floatAction), withKey: "float")
         }
     }
+
+    func live() {
+        self.flap(on: true)
+        self.speed = 1
+        self.physicsBody?.isDynamic = false
+        self.physicsBody?.collisionBitMask = Body.ground | Body.log
+        self.physicsBody?.isDynamic = true
+    }
+
+    func jump() {
+        self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 230))
+    }
+
+    func fall() {
+        self.physicsBody?.velocity = .zero
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
+    }
+
+    func die() {
+        self.physicsBody?.isDynamic = false
+        self.flap(on: false)
+    }
 }

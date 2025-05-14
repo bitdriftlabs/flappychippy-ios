@@ -1,6 +1,7 @@
 import SpriteKit
 
-class GameSpriteNode: SKSpriteNode {
+
+final class ButtonNode: SKSpriteNode {
     var scale: CGFloat = 1.0
 
     required init?(coder aDecoder: NSCoder) {
@@ -8,29 +9,17 @@ class GameSpriteNode: SKSpriteNode {
         self.scale = self.xScale
     }
 
-    func animate(in show: Bool) {
-        run(
-            SKAction.sequence([
-                SKAction.scale(to: show ? scale : 0, duration: 0.2),
-                SKAction.fadeAlpha(to: show ? 1 : 0, duration: 0.2),
-                !show ? SKAction.removeFromParent() : SKAction.run {}
-            ])
-        )
-    }
-}
-
-final class ButtonNode: GameSpriteNode {
     func animateTouchBegan() {
-        self.run(SKAction.scale(to: self.scale * 0.7, duration: 0.15))
+        self.run(.scale(to: self.scale * 0.7, duration: 0.15))
         Sound.swoosh.play()
         Sound.impact.impactOccurred()
     }
 
     func animateTouchEnded() {
-        self.run(SKAction.scale(to: self.scale, duration: 0.15))
+        self.run(.scale(to: self.scale, duration: 0.15))
     }
 
     func animateTouchEnded(_ completion: @escaping () -> Void) {
-        self.run(SKAction.scale(to: self.scale, duration: 0.15), completion: completion)
+        self.run(.scale(to: self.scale, duration: 0.15), completion: completion)
     }
 }
