@@ -50,7 +50,22 @@ final class LogNode: SKNode {
         self.addChild(gapNode)
         self.addChild(bottomLog)
     }
-    
+
+    func runMoveAnimation(size: CGSize) {
+        self.position.x = size.width / 2
+
+        let delta = self.position.x + self.width + (size.width / 2)
+        let sequence = SKAction.sequence([
+            SKAction.moveTo(
+                x: -self.width - (size.width / 2), duration: kLogSecondsPerPixel * delta
+            ),
+            SKAction.moveTo(x: size.width / 2, duration: 0),
+            SKAction.removeFromParent(),
+        ])
+
+        self.run(sequence)
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

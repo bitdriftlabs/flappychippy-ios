@@ -95,18 +95,7 @@ final class GameScene: SKScene {
             in: self.bgNode.groundY + kMinScreenPadding..<(self.size.height / 2) - kMinScreenPadding
         )
         let log = LogNode(gapAt: gapY)
-        log.position.x = self.size.width / 2
-
-        let delta = log.position.x + log.width + (self.size.width / 2)
-        let sequence = SKAction.sequence([
-            SKAction.moveTo(
-                x: -log.width - (self.size.width / 2), duration: kLogSecondsPerPixel * delta
-            ),
-            SKAction.moveTo(x: self.size.width / 2, duration: 0),
-            SKAction.removeFromParent(),
-        ])
-
-        log.run(sequence)
+        log.runMoveAnimation(size: self.size)
         self.logs.addChild(log)
     }
 
@@ -116,6 +105,7 @@ final class GameScene: SKScene {
 
         self.addChildIfOrphaned(self.logs)
         self.chippy.float(on: false)
+        self.bgNode.loop()
 
         [self.taptap, self.getReady].forEach { $0.animateOut() }
 
