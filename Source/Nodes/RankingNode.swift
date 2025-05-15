@@ -45,7 +45,7 @@ final class RankingNode: SKNode {
 
 // MARK: - Extension Touch Receiver
 
-extension RankingNode: TouchReceiver {
+extension RankingNode: ButtonTouchReceiver {
     func onTouch(on button: ButtonNode) {
         let rankingButton = button.name.flatMap { RankingButton(rawValue: $0) }
         switch rankingButton {

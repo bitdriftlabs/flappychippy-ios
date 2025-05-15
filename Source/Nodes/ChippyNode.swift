@@ -51,6 +51,7 @@ final class ChippyNode: SKSpriteNode {
     }
 
     func fall() {
+        self.physicsBody?.collisionBitMask = Body.ground
         self.physicsBody?.velocity = .zero
         self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
     }

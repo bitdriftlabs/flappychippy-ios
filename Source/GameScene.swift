@@ -79,6 +79,9 @@ final class GameScene: SKScene {
     }
 
     private func showTapTap() {
+        FlashNode(color: .black, in: self)
+            .flash(fadeInDuration: 0.2, peakAlpha: 1, fadeOutDuration: 0.2)
+
         self.state = .taptap
         self.logs.children.forEach { $0.removeFromParent() }
         self.gameOver.animateOut()
@@ -100,9 +103,6 @@ final class GameScene: SKScene {
     }
 
     private func startNewGame() {
-        FlashNode(color: .black, in: self)
-            .flash(fadeInDuration: 0.25, peakAlpha: 1.0, fadeOutDuration: 0.25)
-
         self.addChildIfOrphaned(self.logs)
         self.chippy.float(on: false)
         self.bgNode.loop()
@@ -122,10 +122,12 @@ final class GameScene: SKScene {
 
         self.chippy.live()
         self.state = .playing
+        self.jump()
     }
 
     private func jump() {
         if self.state == .playing && self.chippy.position.y < (self.frame.height + 20) {
+            Sound.wing.play()
             self.chippy.jump()
         }
     }
@@ -147,7 +149,6 @@ final class GameScene: SKScene {
 
         self.scoreLabel.animateOut()
         self.gameOver.animateIn(in: self)
-        self.onboarding?.showScoresUI()
 
         self.bgNode.stop()
         self.logs.children.forEach { $0.removeAllActions() }
@@ -176,9 +177,12 @@ extension GameScene: SKPhysicsContactDelegate {
         } else if contact.category(is: Body.ground) {
             self.endGame()
             self.chippy.die()
+            self.onboarding?.showScoresUI()
         }
     }
 }
+
+// MARK: - Touches
 
 extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -190,7 +194,7 @@ extension GameScene {
     }
 }
 
-extension GameScene: TouchReceiver {
+extension GameScene: ButtonTouchReceiver {
     func onTouch(on button: ButtonNode) {
         let sceneButton = button.name.flatMap { SceneButton(rawValue: $0) }
         if sceneButton == .play {

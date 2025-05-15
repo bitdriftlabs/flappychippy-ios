@@ -5,7 +5,7 @@ enum SceneButton: String {
     case code, ranking, play
 }
 
-protocol TouchReceiver {
+protocol ButtonTouchReceiver {
     func onTouch(on: ButtonNode)
 }
 
@@ -46,14 +46,14 @@ final class OnboardingNode: SKNode {
 
 // MARK: - Touches
 
-extension OnboardingNode: TouchReceiver {
+extension OnboardingNode: ButtonTouchReceiver {
     func onTouch(on button: ButtonNode) {
         let sceneButton = button.name.flatMap { SceneButton(rawValue: $0) }
         switch sceneButton {
         case .some(.play): self.hideUI()
         case .some(.code): openRepository()
         case .some(.ranking): showRanking()
-        case .some(.play), .none: break
+        case .none: break
         }
     }
 }

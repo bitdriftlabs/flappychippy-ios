@@ -24,48 +24,8 @@ final class BackgroundNode: SKNode {
     }
 
     func loop() {
-        for (i, node) in [self.ground.0, self.ground.1].enumerated() {
-            let width = node.size.width
-
-            // Account for the delta of the current position and the desired end of the first loop,
-            // we move it to the actual expected point smoothly using the right duration and go
-            // from there.
-            let delta = (width * CGFloat(i - 1)) - node.position.x
-            let deltaDuration = abs(delta) * (kDurationPerPixel / 2)
-            let moveDelta = SKAction.moveBy(x: delta, y: 0, duration: deltaDuration)
-
-            let moveLeft = SKAction.moveBy(x: -width, y: 0, duration: kDurationPerPixel / 2 * width)
-            let reset = SKAction.moveTo(x: width * CGFloat(i), duration: 0.0)
-            node.removeAllActions()
-
-            node.run(
-                .sequence([
-                    moveDelta, reset,
-                    .repeatForever(.sequence([moveLeft, reset]))
-                ])
-            )
-        }
-
-        for (i, node) in [self.background.0, self.background.1].enumerated() {
-            let width = node.size.width
-
-            // Account for the delta of the current position and the desired end of the first loop,
-            // we move it to the actual expected point smoothly using the right duration and go
-            // from there.
-            let delta = (width * CGFloat(i - 1)) - node.position.x
-            let deltaDuration = abs(delta) * kDurationPerPixel
-            let moveDelta = SKAction.moveBy(x: delta, y: 0, duration: deltaDuration)
-
-            let moveLeft = SKAction.moveBy(x: -width, y: 0, duration: kDurationPerPixel * width)
-            let reset = SKAction.moveTo(x: width * CGFloat(i), duration: 0.0)
-            node.removeAllActions()
-            node.run(
-                .sequence([
-                    moveDelta, reset,
-                    .repeatForever(.sequence([moveLeft, reset]))
-                ])
-            )
-        }
+        self.loopElements(self.background, durationPerPixel: kDurationPerPixel)
+        self.loopElements(self.ground, durationPerPixel: kDurationPerPixel / 2)
     }
 
     func stop() {
@@ -111,5 +71,26 @@ final class BackgroundNode: SKNode {
         bottomGround.strokeColor = .clear
         bottomGround.zPosition = LayerPriority.ground + 1
         self.addChild(bottomGround)
+    }
+
+    private func loopElements(_ tuple: (SKSpriteNode, SKSpriteNode), durationPerPixel: CGFloat) {
+        let width = tuple.0.size.width
+        let moveLeft = SKAction.moveBy(x: -width, y: 0, duration: durationPerPixel * width)
+        let reset = SKAction.moveBy(x: width, y: 0, duration: 0.0)
+
+        // Account for the delta of the current position and the desired end of the first loop,
+        // we move it to the actual expected point smoothly using the right duration and go
+        // from there.
+        let delta = tuple.1.position.x
+        let deltaDuration = abs(delta) * durationPerPixel
+        let moveDelta = SKAction.moveBy(x: -delta, y: 0, duration: deltaDuration)
+
+        for node in [tuple.0, tuple.1] {
+            node.removeAllActions()
+            node.run(.sequence([
+                moveDelta, reset,
+                .repeatForever(.sequence([moveLeft, reset]))
+            ]))
+        }
     }
 }

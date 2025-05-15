@@ -34,7 +34,7 @@ extension ButtonNode {
         self.animateTouchEnded()
         var node = self.parent
         while let current = node {
-            (current as? TouchReceiver)?.onTouch(on: self)
+            (current as? ButtonTouchReceiver)?.onTouch(on: self)
             node = current.parent
         }
     }
