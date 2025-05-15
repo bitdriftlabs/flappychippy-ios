@@ -1,5 +1,6 @@
 import SpriteKit
 
+private let kMinimumTapableDimension = 70.0
 
 final class ButtonNode: SKSpriteNode {
     var scale: CGFloat = 1.0
@@ -8,6 +9,12 @@ final class ButtonNode: SKSpriteNode {
         super.init(coder: aDecoder)
         self.isUserInteractionEnabled = true
         self.scale = self.xScale
+        let node = SKShapeNode(rectOf: CGSize(
+            width: max(self.size.width, kMinimumTapableDimension),
+            height: max(self.size.height, kMinimumTapableDimension)
+        ))
+        node.strokeColor = .clear
+        self.addChild(node)
     }
 
     private func animateTouchBegan() {

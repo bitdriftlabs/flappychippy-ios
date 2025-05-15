@@ -1,7 +1,6 @@
 import SpriteKit
 
 private let kImageScaleFactor: CGFloat = 1.5
-private let kDurationPerPixel: CGFloat = 0.006
 
 final class BackgroundNode: SKNode {
     private static let backgroundTexture = SKTextureAtlas.game.textureNamed("bg")
@@ -24,8 +23,8 @@ final class BackgroundNode: SKNode {
     }
 
     func loop() {
-        self.loopElements(self.background, durationPerPixel: kDurationPerPixel)
-        self.loopElements(self.ground, durationPerPixel: kDurationPerPixel / 2)
+        self.loopElements(self.background, durationPerPixel: kBackgroundDurationPerPixel)
+        self.loopElements(self.ground, durationPerPixel: kLogSecondsPerPixel)
     }
 
     func stop() {

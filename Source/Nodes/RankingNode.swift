@@ -1,46 +1,66 @@
 import SpriteKit
 
+private let kRankingPadding = 20.0
+
 private enum RankingButton: String {
     case back
 }
 
 final class RankingNode: SKNode {
-    private lazy var back = self.childNode(withName: "back")
+    private lazy var background = self.childNode(withName: "//background") as! SKSpriteNode
     private var scale: CGFloat = 1
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.scale = max(self.xScale, self.yScale)
-    }
 
-    func showAnimated(in node: SKNode) {
-        self.setScale(0)
-        self.isHidden = false
-        let animation = SKAction.group([
-            SKAction.scale(to: scale, duration: 0.2),
-            SKAction.fadeAlpha(to: 1, duration: 0.2)
-        ])
-        animation.timingMode = .easeInEaseOut
-
-        node.addChildIfOrphaned(self)
-        self.run(animation)
-    }
-
-    func hideAnimated() {
-        let animation = SKAction.sequence([
-            SKAction.group([
-                SKAction.scale(to: 0, duration: 0.15),
-                SKAction.fadeAlpha(to: 0, duration: 0.2),
-            ]),
-            SKAction.removeFromParent()
-        ])
-        animation.timingMode = .easeInEaseOut
-        self.run(animation)
+        let ranking: [(name: String, score: Int)] = [
+            ("Fz", 1337),
+            ("Fz", 1337),
+            ("Fz", 1337),
+            ("Fz", 1337),
+            ("Fz", 1337),
+        ]
+        self.createTable(ranking: ranking)
     }
 
     func goBack() {
-        self.hideAnimated()
+        self.animateOut()
     }
+
+    private func createTable(ranking: [(name: String, score: Int)]) {
+        for (i, (name, score)) in ranking.enumerated() {
+            self.createLabel(text: name, aligned: .left, i: i)
+            let shadow = self.createLabel(text: name, aligned: .left, i: i)
+            shadow.fontColor = .shadow
+            shadow.zPosition -= 0.5
+            shadow.position.y -= 3
+
+            self.createLabel(text: "\(score)", aligned: .right, i: i)
+            let scoreShadow = self.createLabel(text: "\(score)", aligned: .right, i: i)
+            scoreShadow.fontColor = .shadow
+            scoreShadow.zPosition -= 0.5
+            scoreShadow.position.y -= 3
+        }
+    }
+
+    @discardableResult
+    private func createLabel(text: String, aligned: SKLabelHorizontalAlignmentMode, i: Int)
+        -> SKLabelNode
+    {
+        let sign: CGFloat = aligned == .left ? 1 : -1
+        let label = SKLabelNode(text: text)
+        label.fontName = "Kongtext"
+        label.fontColor = .text
+        label.fontSize = 20
+        label.horizontalAlignmentMode = aligned
+        label.position.y = CGFloat(i) * 20
+        label.position.x = -(sign * self.background.size.width) / 2 + (sign * kRankingPadding)
+        label.zPosition = LayerPriority.text
+        self.addChild(label)
+        return label
+    }
+
 }
 
 // MARK: - Extension Touch Receiver

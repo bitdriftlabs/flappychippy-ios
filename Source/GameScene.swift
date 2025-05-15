@@ -17,6 +17,7 @@ enum LayerPriority {
     static let panels = 1.0
     static let log = -8.0
     static let flash = 10.0
+    static let text = 2.0
 }
 
 private enum GameState {
@@ -63,6 +64,7 @@ final class GameScene: SKScene {
         self.taptap.removeFromParent()
         self.getReady.removeFromParent()
         self.physicsWorld.contactDelegate = self
+        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: kGravityForce)
     }
 
     override func update(_ currentTime: TimeInterval) {
@@ -79,9 +81,6 @@ final class GameScene: SKScene {
     }
 
     private func showTapTap() {
-        FlashNode(color: .black, in: self)
-            .flash(fadeInDuration: 0.2, peakAlpha: 1, fadeOutDuration: 0.2)
-
         self.state = .taptap
         self.logs.children.forEach { $0.removeFromParent() }
         self.gameOver.animateOut()
@@ -91,6 +90,7 @@ final class GameScene: SKScene {
         self.chippy.run(.move(to: CGPoint(x: -self.size.width / 4, y: 0), duration: 0.4))
         self.chippy.float()
         self.chippy.flap()
+        self.bgNode.loop()
     }
 
     private func moveLogs() {
@@ -105,7 +105,6 @@ final class GameScene: SKScene {
     private func startNewGame() {
         self.addChildIfOrphaned(self.logs)
         self.chippy.float(on: false)
-        self.bgNode.loop()
 
         [self.taptap, self.getReady].forEach { $0.animateOut() }
 
@@ -113,7 +112,7 @@ final class GameScene: SKScene {
         self.run(
             .repeatForever(
                 .sequence([
-                    .run(moveLogs),
+                    .run(self.moveLogs),
                     .wait(forDuration: kTimeDistanceBetweenLogs),
                 ])
             ),
@@ -147,7 +146,7 @@ final class GameScene: SKScene {
         FlashNode(color: .white, in: self)
             .flash(fadeInDuration: 0.1, peakAlpha: 0.9, fadeOutDuration: 0.25)
 
-        self.scoreLabel.animateOut()
+        self.scoreLabel.animateOut { self.score = 0 }
         self.gameOver.animateIn(in: self)
 
         self.bgNode.stop()
@@ -160,8 +159,6 @@ final class GameScene: SKScene {
                 .run(Sound.die.play),
             ])
         )
-
-        self.score = 0
     }
 }
 
@@ -169,7 +166,7 @@ final class GameScene: SKScene {
 
 extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
-        if contact.category(is: Body.score) {
+        if self.state == .playing && contact.category(is: Body.score) {
             self.incrementScore()
         } else if self.state == .playing && contact.category(is: Body.log) {
             self.endGame()
@@ -198,9 +195,6 @@ extension GameScene: ButtonTouchReceiver {
     func onTouch(on button: ButtonNode) {
         let sceneButton = button.name.flatMap { SceneButton(rawValue: $0) }
         if sceneButton == .play {
-            FlashNode(color: .white, in: self)
-                .flash(fadeInDuration: 0.1, peakAlpha: 0.9, fadeOutDuration: 0.25)
-
             self.showTapTap()
         }
     }

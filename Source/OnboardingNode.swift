@@ -40,7 +40,7 @@ final class OnboardingNode: SKNode {
     private func openRepository() {}
 
     private func showRanking() {
-        self.rankingPanel.showAnimated(in: self)
+        self.rankingPanel.animateIn(in: self)
     }
 }
 
