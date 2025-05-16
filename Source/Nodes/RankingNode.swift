@@ -1,6 +1,8 @@
 import SpriteKit
 
 private let kRankingPadding = 20.0
+private let kRowHeight = 30.0
+private let kCloseButtonOffset = -21.0
 
 private enum RankingButton: String {
     case back
@@ -15,15 +17,22 @@ final class RankingNode: SKNode {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.scale = max(self.xScale, self.yScale)
+        self.zPosition = LayerPriority.panels + 3
+        self.background.zPosition = self.zPosition
     }
 
-    func fetchRanking() {
+    func fetchRanking(initial: Ranking?, completion: @escaping (Ranking?) -> Void) {
+        if let initial {
+            self.createTable(ranking: initial)
+        }
+
         Task {
             await MainActor.run { self.spinner.spin(in: self) }
             let ranking = try? await self.api.ranking()
             await MainActor.run {
                 self.spinner.stop()
                 self.createTable(ranking: ranking)
+                completion(ranking)
             }
         }
     }
@@ -35,27 +44,28 @@ final class RankingNode: SKNode {
     private func createTable(ranking: Ranking?) {
         let list = ranking?.ranking ?? []
         if list.isEmpty {
-            let label = self.createLabel(text: "Nobody here!", aligned: .center, i: 0)
+            let label = self.createLabel(text: "Nobody here!", aligned: .center, i: 0, count: 0)
             label.position.x = 0
         }
 
         for (i, row) in list.enumerated() {
-            self.createLabel(text: row.short, aligned: .left, i: i)
-            self.createLabel(text: "\(row.score)", aligned: .right, i: i)
+            self.createLabel(text: row.short, aligned: .left, i: i, count: list.count)
+            self.createLabel(text: "\(row.score)", aligned: .right, i: i, count: list.count)
         }
     }
 
     @discardableResult
     private func createLabel(
-        text: String, aligned: SKLabelHorizontalAlignmentMode, i: Int, shadow: Bool = false
+        text: String, aligned: SKLabelHorizontalAlignmentMode, i: Int, shadow: Bool = false,
+        count: Int
     )
         -> SKLabelNode
     {
-        let sign: CGFloat
+        let xSign: CGFloat
         switch aligned {
-        case .left: sign = 1
-        case .right: sign = -1
-        default: sign = 0
+        case .left: xSign = 1
+        case .right: xSign = -1
+        default: xSign = 0
         }
 
         let label = SKLabelNode(text: text)
@@ -63,13 +73,16 @@ final class RankingNode: SKNode {
         label.fontColor = .text
         label.fontSize = 20
         label.horizontalAlignmentMode = aligned
-        label.position.y = CGFloat(i) * 20
-        label.position.x = -(sign * self.background.size.width) / 2 + (sign * kRankingPadding)
-        label.zPosition = LayerPriority.text
+        label.position.y = kRowHeight * CGFloat((count / 2) - i) + kCloseButtonOffset
+        label.position.x = -(xSign * self.background.size.width) / 2 + (xSign * kRankingPadding)
+        label.zPosition = self.zPosition + 1
         self.addChild(label)
 
         if !shadow {
-            let scoreShadow = self.createLabel(text: text, aligned: aligned, i: i, shadow: true)
+            let scoreShadow = self.createLabel(
+                text: text, aligned: aligned, i: i, shadow: true,
+                count: count
+            )
             scoreShadow.fontColor = .shadow
             scoreShadow.zPosition -= 0.5
             scoreShadow.position.y -= 3
@@ -77,7 +90,6 @@ final class RankingNode: SKNode {
 
         return label
     }
-
 }
 
 // MARK: - Extension Touch Receiver

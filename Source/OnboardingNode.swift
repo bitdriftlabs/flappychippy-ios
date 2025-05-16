@@ -18,13 +18,14 @@ final class OnboardingNode: SKNode {
     private lazy var code = self.childNode(withName: "//code") as! ButtonNode
     private lazy var title = self.childNode(withName: "//title") as! SKSpriteNode
 
+    var lastKnownRanking: Ranking?
     private var touchedButton: ButtonNode?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.isUserInteractionEnabled = true
         self.position = .zero
-        self.scoreBoard.removeFromParent()
+        self.scoreBoard.isHidden = true
     }
 
     func showScoresUI(best: Int, score: Int) {
@@ -32,7 +33,16 @@ final class OnboardingNode: SKNode {
         self.play.animateIn(in: self)
         self.code.animateIn(in: self)
         self.scoreBoard.animateIn(in: self)
-        self.scoreBoard.setScores(best: best, score: score)
+
+        let scores = self.lastKnownRanking?.ranking ?? []
+        let ranking = scores.firstIndex { $0.score <= best }
+        self.scoreBoard.setScores(best: best, score: score, ranking: ranking)
+    }
+
+    func prefetchRanking() {
+        self.rankingPanel.fetchRanking(initial: self.lastKnownRanking) {
+            self.lastKnownRanking = $0
+        }
     }
 
     private func hideUI() {
@@ -43,11 +53,17 @@ final class OnboardingNode: SKNode {
         self.scoreBoard.animateOut()
     }
 
-    private func openRepository() {}
+    private func openRepository() {
+        if let url = URL(string: kFlappyChippyURL) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 
     private func showRanking() {
         self.rankingPanel.animateIn(in: self, duration: 0.2)
-        self.rankingPanel.fetchRanking()
+        self.rankingPanel.fetchRanking(initial: self.lastKnownRanking) {
+            self.lastKnownRanking = $0
+        }
     }
 }
 

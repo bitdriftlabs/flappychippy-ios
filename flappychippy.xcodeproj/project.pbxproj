@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5BB004BF2DD2573F00C4F4EC /* Capture in Frameworks */ = {isa = PBXBuildFile; productRef = 5BB004BE2DD2573F00C4F4EC /* Capture */; };
+		5BF1CEEA2DD7EE9D00F79D05 /* Capture in Frameworks */ = {isa = PBXBuildFile; productRef = 5BF1CEE92DD7EE9D00F79D05 /* Capture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BB004BF2DD2573F00C4F4EC /* Capture in Frameworks */,
+				5BF1CEEA2DD7EE9D00F79D05 /* Capture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +94,7 @@
 			);
 			name = flappychippy;
 			packageProductDependencies = (
-				5BB004BE2DD2573F00C4F4EC /* Capture */,
+				5BF1CEE92DD7EE9D00F79D05 /* Capture */,
 			);
 			productName = flappychippy;
 			productReference = 5BB004A32DD2565300C4F4EC /* flappychippy.app */;
@@ -125,7 +125,7 @@
 			mainGroup = 5BB0049A2DD2565300C4F4EC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				5BB004BD2DD2573F00C4F4EC /* XCRemoteSwiftPackageReference "capture-ios" */,
+				5BF1CEE82DD7EE9D00F79D05 /* XCRemoteSwiftPackageReference "capture-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5BB004A42DD2565300C4F4EC /* Products */;
@@ -365,7 +365,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5BB004BD2DD2573F00C4F4EC /* XCRemoteSwiftPackageReference "capture-ios" */ = {
+		5BF1CEE82DD7EE9D00F79D05 /* XCRemoteSwiftPackageReference "capture-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bitdriftlabs/capture-ios";
 			requirement = {
@@ -376,9 +376,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5BB004BE2DD2573F00C4F4EC /* Capture */ = {
+		5BF1CEE92DD7EE9D00F79D05 /* Capture */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5BB004BD2DD2573F00C4F4EC /* XCRemoteSwiftPackageReference "capture-ios" */;
+			package = 5BF1CEE82DD7EE9D00F79D05 /* XCRemoteSwiftPackageReference "capture-ios" */;
 			productName = Capture;
 		};
 /* End XCSwiftPackageProductDependency section */

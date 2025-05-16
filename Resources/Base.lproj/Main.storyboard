@@ -146,6 +146,7 @@
                                     <constraint firstAttribute="bottom" secondItem="Zk4-2O-E0G" secondAttribute="bottom" constant="10" id="eDn-I6-aWo"/>
                                     <constraint firstAttribute="height" constant="200" id="qA3-1O-QeC"/>
                                     <constraint firstAttribute="trailing" secondItem="Hps-os-5vF" secondAttribute="trailing" constant="20" id="seJ-QN-JyA"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="420" id="wWr-Eu-HxF"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -155,10 +156,10 @@
                             <constraint firstItem="NUi-Nl-ugM" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="3PP-Jo-bPb"/>
                             <constraint firstAttribute="trailing" secondItem="NUi-Nl-ugM" secondAttribute="trailing" id="86e-Oe-vMv"/>
                             <constraint firstItem="NUi-Nl-ugM" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="8Z4-t7-d5K"/>
-                            <constraint firstItem="jpD-3i-4Ac" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="5" id="E5k-MY-tCn"/>
+                            <constraint firstItem="jpD-3i-4Ac" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" priority="900" constant="5" id="E5k-MY-tCn"/>
                             <constraint firstAttribute="bottom" secondItem="NUi-Nl-ugM" secondAttribute="bottom" id="QPr-ST-me6"/>
                             <constraint firstItem="jpD-3i-4Ac" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="ddV-a4-Wof"/>
-                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="jpD-3i-4Ac" secondAttribute="trailing" constant="5" id="euc-hj-kK4"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="jpD-3i-4Ac" secondAttribute="trailing" priority="900" constant="5" id="euc-hj-kK4"/>
                         </constraints>
                     </view>
                     <connections>

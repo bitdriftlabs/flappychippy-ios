@@ -21,9 +21,6 @@ struct API: APIService {
     }
 
     func ranking() async throws -> Ranking {
-        return Ranking(ranking: [
-            Score(score: 10, name: "Martin Conte", email: "martin@bitdrift.io"),
-        ])
-//        try await self.get(.ranking)
+        try await self.get(.ranking)
     }
 }

@@ -17,7 +17,6 @@ enum LayerPriority {
     static let panels = 1.0
     static let log = -8.0
     static let flash = 10.0
-    static let text = 2.0
 }
 
 private enum GameState {
@@ -45,6 +44,10 @@ final class GameScene: SKScene {
         }
     }
 
+    private var ranking: Ranking? {
+        self.onboarding.lastKnownRanking
+    }
+
     override func didMove(to view: SKView) {
         self.gameOver.removeFromParent()
         self.bgNode.setupNodes(in: self)
@@ -55,6 +58,8 @@ final class GameScene: SKScene {
         self.scoreLabel.removeFromParent()
         self.taptap.removeFromParent()
         self.getReady.removeFromParent()
+        self.onboarding.prefetchRanking()
+
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: kGravityForce)
     }
