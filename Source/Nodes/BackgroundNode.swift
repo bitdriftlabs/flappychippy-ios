@@ -1,7 +1,5 @@
 import SpriteKit
 
-private let kImageScaleFactor: CGFloat = 1.5
-
 final class BackgroundNode: SKNode {
     private static let backgroundTexture = SKTextureAtlas.game.textureNamed("bg")
     private static let groundTexture = SKTextureAtlas.game.textureNamed("ground")
@@ -34,13 +32,12 @@ final class BackgroundNode: SKNode {
     }
 
     func setupNodes(in scene: SKScene) {
-        let bgHeight = Self.backgroundTexture.size().height * kImageScaleFactor
+        let bgHeight = Self.backgroundTexture.size().height
         let backgroundY = (scene.size.height / 2.0) - (bgHeight / 2.0)
-        let groundHeight = Self.groundTexture.size().height * kImageScaleFactor
+        let groundHeight = Self.groundTexture.size().height
         let groundY = backgroundY - (bgHeight / 2.0) + (groundHeight / 2.0)
 
         for (i, node) in [self.ground.0, self.ground.1].enumerated() {
-            node.setScale(kImageScaleFactor)
             node.position = CGPoint(x: CGFloat(i) * (node.size.width), y: groundY)
             node.zPosition = LayerPriority.ground + CGFloat(i)
             node.name = "ground-\(i)"
@@ -52,7 +49,6 @@ final class BackgroundNode: SKNode {
         }
 
         for (i, node) in [self.background.0, self.background.1].enumerated() {
-            node.setScale(kImageScaleFactor)
             node.position = CGPoint(x: CGFloat(i) * (node.size.width - 1), y: backgroundY)
             node.zPosition = LayerPriority.background + CGFloat(i)
             node.name = "bg-\(i)"

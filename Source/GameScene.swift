@@ -32,24 +32,16 @@ final class GameScene: SKScene {
     private lazy var getReady = self.childNode(withName: "//get-ready") as! SKSpriteNode
     private lazy var scoreLabel = self.childNode(withName: "//score") as! LabelWithShadowNode
     private lazy var gameOver = self.childNode(withName: "//game-over") as! SKSpriteNode
+    private lazy var onboarding = self.childNode(withName: "//onboarding") as! OnboardingNode
 
-    private var onboarding: OnboardingNode?
+    private let api = API(session: .shared)
     private var touchedButton: ButtonNode?
     private var state: GameState = .onboarding
+    private var previousScore = 0
     private var score = 0 {
-        didSet { self.scoreLabel.text = "\(self.score)" }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        let ref = self.childNode(withName: "//onboarding")
-        self.onboarding = ref?.childNode(withName: "//root") as? OnboardingNode
-        self.onboarding?.removeFromParent()
-        ref?.removeFromParent()
-
-        if let onboarding = self.onboarding {
-            self.addChild(onboarding)
+        didSet {
+            self.previousScore = oldValue
+            self.scoreLabel.text = "\(self.score)"
         }
     }
 
@@ -81,6 +73,7 @@ final class GameScene: SKScene {
     }
 
     private func showTapTap() {
+        self.score = 0
         self.state = .taptap
         self.logs.children.forEach { $0.removeFromParent() }
         self.gameOver.animateOut()
@@ -146,7 +139,8 @@ final class GameScene: SKScene {
         FlashNode(color: .white, in: self)
             .flash(fadeInDuration: 0.1, peakAlpha: 0.9, fadeOutDuration: 0.25)
 
-        self.scoreLabel.animateOut { self.score = 0 }
+        let finalScore = self.score
+        self.scoreLabel.animateOut()
         self.gameOver.animateIn(in: self)
 
         self.bgNode.stop()
@@ -159,6 +153,17 @@ final class GameScene: SKScene {
                 .run(Sound.die.play),
             ])
         )
+
+        let user = UserManager.shared.current
+        if let user, finalScore > user.best {
+            UserManager.shared.current = User(name: user.name, email: user.email, best: finalScore)
+        }
+
+        Task {
+            try? await self.api.post(
+                score: finalScore, name: user?.name ?? "", email: user?.email ?? ""
+            )
+        }
     }
 }
 
@@ -166,6 +171,7 @@ final class GameScene: SKScene {
 
 extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
+        let user = UserManager.shared.current
         if self.state == .playing && contact.category(is: Body.score) {
             self.incrementScore()
         } else if self.state == .playing && contact.category(is: Body.log) {
@@ -174,7 +180,7 @@ extension GameScene: SKPhysicsContactDelegate {
         } else if contact.category(is: Body.ground) {
             self.endGame()
             self.chippy.die()
-            self.onboarding?.showScoresUI()
+            self.onboarding.showScoresUI(best: user?.best ?? 0, score: self.score)
         }
     }
 }

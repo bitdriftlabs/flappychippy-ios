@@ -13,12 +13,9 @@ final class LabelWithShadowNode: SKNode {
     }
 
     func pop() {
-        let scale = self.scale ?? self.node.xScale
-        self.scale = scale
-
         let pop = SKAction.sequence([
-            .scale(to: scale * 1.2, duration: 0.1),
-            .scale(to: scale, duration: 0.1),
+            .scale(to: 1.2, duration: 0.1),
+            .scale(to: 1, duration: 0.1),
         ])
         self.scoreLabel.run(pop)
         self.scoreShadowLabel.run(pop)

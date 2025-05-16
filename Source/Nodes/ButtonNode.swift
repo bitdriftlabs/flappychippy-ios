@@ -3,12 +3,9 @@ import SpriteKit
 private let kMinimumTapableDimension = 70.0
 
 final class ButtonNode: SKSpriteNode {
-    var scale: CGFloat = 1.0
-
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.isUserInteractionEnabled = true
-        self.scale = self.xScale
         let node = SKShapeNode(rectOf: CGSize(
             width: max(self.size.width, kMinimumTapableDimension),
             height: max(self.size.height, kMinimumTapableDimension)
@@ -18,17 +15,17 @@ final class ButtonNode: SKSpriteNode {
     }
 
     private func animateTouchBegan() {
-        self.run(.scale(to: self.scale * 0.7, duration: 0.15))
+        self.run(.scale(to: 0.7, duration: 0.15))
         Sound.swoosh.play()
         Sound.impact.impactOccurred()
     }
 
     private func animateTouchEnded() {
-        self.run(.scale(to: self.scale, duration: 0.15))
+        self.run(.scale(to: 1, duration: 0.15))
     }
 
     private func animateTouchEnded(_ completion: @escaping () -> Void) {
-        self.run(.scale(to: self.scale, duration: 0.15), completion: completion)
+        self.run(.scale(to: 1, duration: 0.15), completion: completion)
     }
 }
 

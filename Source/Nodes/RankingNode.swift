@@ -7,48 +7,57 @@ private enum RankingButton: String {
 }
 
 final class RankingNode: SKNode {
-    private lazy var background = self.childNode(withName: "//background") as! SKSpriteNode
+    private lazy var background = self.childNode(withName: "background") as! SKSpriteNode
     private var scale: CGFloat = 1
+    private let spinner = SpinnerNode()
+    private let api = API(session: .shared)
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.scale = max(self.xScale, self.yScale)
-
-        let ranking: [(name: String, score: Int)] = [
-            ("Fz", 1337),
-            ("Fz", 1337),
-            ("Fz", 1337),
-            ("Fz", 1337),
-            ("Fz", 1337),
-        ]
-        self.createTable(ranking: ranking)
     }
 
-    func goBack() {
-        self.animateOut()
+    func fetchRanking() {
+        Task {
+            await MainActor.run { self.spinner.spin(in: self) }
+            let ranking = try? await self.api.ranking()
+            await MainActor.run {
+                self.spinner.stop()
+                self.createTable(ranking: ranking)
+            }
+        }
     }
 
-    private func createTable(ranking: [(name: String, score: Int)]) {
-        for (i, (name, score)) in ranking.enumerated() {
-            self.createLabel(text: name, aligned: .left, i: i)
-            let shadow = self.createLabel(text: name, aligned: .left, i: i)
-            shadow.fontColor = .shadow
-            shadow.zPosition -= 0.5
-            shadow.position.y -= 3
+    private func goBack() {
+        self.animateOut(duration: 0.2)
+    }
 
-            self.createLabel(text: "\(score)", aligned: .right, i: i)
-            let scoreShadow = self.createLabel(text: "\(score)", aligned: .right, i: i)
-            scoreShadow.fontColor = .shadow
-            scoreShadow.zPosition -= 0.5
-            scoreShadow.position.y -= 3
+    private func createTable(ranking: Ranking?) {
+        let list = ranking?.ranking ?? []
+        if list.isEmpty {
+            let label = self.createLabel(text: "Nobody here!", aligned: .center, i: 0)
+            label.position.x = 0
+        }
+
+        for (i, row) in list.enumerated() {
+            self.createLabel(text: row.short, aligned: .left, i: i)
+            self.createLabel(text: "\(row.score)", aligned: .right, i: i)
         }
     }
 
     @discardableResult
-    private func createLabel(text: String, aligned: SKLabelHorizontalAlignmentMode, i: Int)
+    private func createLabel(
+        text: String, aligned: SKLabelHorizontalAlignmentMode, i: Int, shadow: Bool = false
+    )
         -> SKLabelNode
     {
-        let sign: CGFloat = aligned == .left ? 1 : -1
+        let sign: CGFloat
+        switch aligned {
+        case .left: sign = 1
+        case .right: sign = -1
+        default: sign = 0
+        }
+
         let label = SKLabelNode(text: text)
         label.fontName = "Kongtext"
         label.fontColor = .text
@@ -58,6 +67,14 @@ final class RankingNode: SKNode {
         label.position.x = -(sign * self.background.size.width) / 2 + (sign * kRankingPadding)
         label.zPosition = LayerPriority.text
         self.addChild(label)
+
+        if !shadow {
+            let scoreShadow = self.createLabel(text: text, aligned: aligned, i: i, shadow: true)
+            scoreShadow.fontColor = .shadow
+            scoreShadow.zPosition -= 0.5
+            scoreShadow.position.y -= 3
+        }
+
         return label
     }
 

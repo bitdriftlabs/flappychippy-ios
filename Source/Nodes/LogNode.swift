@@ -11,8 +11,6 @@ enum CollisonMasks {
 }
 
 private func setup(sprite: SKSpriteNode, named name: String) -> SKSpriteNode {
-    sprite.xScale = 0.5
-    sprite.yScale = 0.5
     sprite.name = name
     sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
     sprite.physicsBody?.isDynamic = false
