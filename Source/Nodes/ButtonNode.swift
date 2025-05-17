@@ -1,3 +1,4 @@
+import Capture
 import SpriteKit
 
 private let kMinimumTapableDimension = 70.0
@@ -14,6 +15,8 @@ final class ButtonNode: SKSpriteNode {
         self.addChild(node)
     }
 
+    // MARK: - Private methods
+
     private func animateTouchBegan() {
         self.run(.scale(to: 0.7, duration: 0.15))
         Sound.swoosh.play()
@@ -29,6 +32,8 @@ final class ButtonNode: SKSpriteNode {
     }
 }
 
+// MARK: - Touches
+
 extension ButtonNode {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.animateTouchBegan()
@@ -37,6 +42,8 @@ extension ButtonNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.animateTouchEnded()
         var node = self.parent
+        Logger.logInfo("Button touched", fields: ["node": self.name])
+
         while let current = node {
             (current as? ButtonTouchReceiver)?.onTouch(on: self)
             node = current.parent

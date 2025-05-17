@@ -20,17 +20,28 @@ final class BackgroundNode: SKNode {
         super.init(coder: aDecoder)
     }
 
+    /**
+     * Loop the background elements, the factory far behind move slower than the ground, creating a parallax effect.
+     */
     func loop() {
         self.loopElements(self.background, durationPerPixel: kBackgroundDurationPerPixel)
         self.loopElements(self.ground, durationPerPixel: kLogSecondsPerPixel)
     }
 
+    /**
+     * Stops the background movement
+     */
     func stop() {
         for node in [self.ground.0, self.ground.1, self.background.0, self.background.1] {
             node.removeAllActions()
         }
     }
 
+    /**
+     * Sets the initial naming, positioning and physics body of the background elements
+     *
+     * - parameter scene: The scene where the background will be added to, used to calculate the right sizing
+     */
     func setupNodes(in scene: SKScene) {
         let bgHeight = Self.backgroundTexture.size().height
         let backgroundY = (scene.size.height / 2.0) - (bgHeight / 2.0)
@@ -67,6 +78,8 @@ final class BackgroundNode: SKNode {
         bottomGround.zPosition = LayerPriority.ground + 1
         self.addChild(bottomGround)
     }
+
+    // MARK: - Private methods
 
     private func loopElements(_ tuple: (SKSpriteNode, SKSpriteNode), durationPerPixel: CGFloat) {
         let width = tuple.0.size.width

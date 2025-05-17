@@ -9,6 +9,14 @@ final class FlashNode: SKShapeNode {
         node.addChild(self)
     }
 
+    /**
+     * Shows a flash on the screen, happens for example when chippy dies.
+     *
+     * - parameter fadeInDuration:  The time that it takes the flash to fade in into the scene.
+     * - parameter peakAlpha:       This fullscreen node will be animated from alpha=0 to this provided value.
+     * - parameter fadeOutDuration: The time that it takes the flash to fade out from the scene.
+     * - parameter onComplete:      Optional closure that will be called after the flash is shown but before is fading out.
+     */
     func flash(
         fadeInDuration: TimeInterval, peakAlpha: CGFloat, fadeOutDuration: TimeInterval,
         onComplete: (() -> Void)? = nil

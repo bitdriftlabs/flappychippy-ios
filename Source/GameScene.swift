@@ -1,4 +1,4 @@
-import GameplayKit
+import Capture
 import SpriteKit
 
 enum Body {
@@ -44,10 +44,6 @@ final class GameScene: SKScene {
         }
     }
 
-    private var ranking: Ranking? {
-        self.onboarding.lastKnownRanking
-    }
-
     override func didMove(to view: SKView) {
         self.gameOver.removeFromParent()
         self.bgNode.setupNodes(in: self)
@@ -77,7 +73,11 @@ final class GameScene: SKScene {
         self.chippy.speed = 1 + rotationPercent
     }
 
+    // MARK: - Private methods
+
     private func showTapTap() {
+        Logger.logScreenView(screenName: "taptap")
+
         self.score = 0
         self.state = .taptap
         self.logs.children.forEach { $0.removeFromParent() }
@@ -95,12 +95,17 @@ final class GameScene: SKScene {
         let gapY = CGFloat.random(
             in: self.bgNode.groundY + kMinScreenPadding..<(self.size.height / 2) - kMinScreenPadding
         )
-        let log = LogNode(gapAt: gapY)
-        log.runMoveAnimation(size: self.size)
-        self.logs.addChild(log)
+
+        let reducedGap = min((CGFloat(score) / 10.0) * 3, 12.0)
+        LogNode(gapAt: gapY, gapHeight: kLogsGapHeight - reducedGap)
+            .runMoveAnimation(in: self.logs, bounds: self.size)
     }
 
     private func startNewGame() {
+        Logger.logInfo("Starting new game")
+        Logger.startSpan(.game)
+        Logger.startSpan(.beforeFirstLog, parent: .game)
+
         self.addChildIfOrphaned(self.logs)
         self.chippy.float(on: false)
 
@@ -139,6 +144,10 @@ final class GameScene: SKScene {
     private func endGame() {
         if self.state != .playing { return }
 
+        Logger.logInfo("Game over")
+        Logger.endSpan(.game, result: .success)
+        Logger.endSpan(.beforeFirstLog, result: .canceled)
+
         self.state = .gameover
         Sound.notification.notificationOccurred(.error)
         FlashNode(color: .white, in: self)
@@ -160,13 +169,16 @@ final class GameScene: SKScene {
         )
 
         let user = UserManager.shared.current
-        if let user, finalScore > user.best {
+        if finalScore > user.best {
+            Logger.logInfo(
+                "User beat his best score", fields: ["score": finalScore, "best": user.best]
+            )
             UserManager.shared.current = User(name: user.name, email: user.email, best: finalScore)
         }
 
         Task {
             try? await self.api.post(
-                score: finalScore, name: user?.name ?? "", email: user?.email ?? ""
+                score: finalScore, name: user.name, email: user.email
             )
         }
     }
@@ -179,13 +191,20 @@ extension GameScene: SKPhysicsContactDelegate {
         let user = UserManager.shared.current
         if self.state == .playing && contact.category(is: Body.score) {
             self.incrementScore()
+            Logger.endSpan(.beforeFirstLog, result: .success)
+            Logger.endSpan(.jumping, result: .success)
+            Logger.logInfo(
+                "Chippy crossed a log", fields: ["score": self.score, "best_score": user.best]
+            )
+
+            Logger.startSpan(.jumping, parent: .game)
         } else if self.state == .playing && contact.category(is: Body.log) {
             self.endGame()
             self.chippy.fall()
         } else if contact.category(is: Body.ground) {
             self.endGame()
             self.chippy.die()
-            self.onboarding.showScoresUI(best: user?.best ?? 0, score: self.score)
+            self.onboarding.showScoresUI(best: user.best, score: self.score)
         }
     }
 }

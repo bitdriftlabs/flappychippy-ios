@@ -4,6 +4,7 @@ final class LabelWithShadowNode: SKNode {
     private lazy var scoreLabel = self.childNode(withName: "//score-label") as! SKLabelNode
     private lazy var scoreShadowLabel = self.childNode(withName: "//score-shadow") as! SKLabelNode
 
+    /// The property that holds the text value, setting it will update both the text and the shadow.
     var text: String {
         get { self.scoreLabel.text ?? "" }
         set {
@@ -12,6 +13,9 @@ final class LabelWithShadowNode: SKNode {
         }
     }
 
+    /**
+     * Small pop animation that can be used to draw attention to a changing value.
+     */
     func pop() {
         let pop = SKAction.sequence([
             .scale(to: 1.2, duration: 0.1),

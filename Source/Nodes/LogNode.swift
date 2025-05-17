@@ -3,6 +3,7 @@ import SpriteKit
 private let topTexture = SKTextureAtlas.game.textureNamed("log-top")
 private let bottomTexture = SKTextureAtlas.game.textureNamed("log-bottom")
 
+/// All phisical element masks the game supports
 enum CollisonMasks {
     static let chippy: UInt32 = 0x1 << 0
     static let land: UInt32 = 0x1 << 1
@@ -21,7 +22,7 @@ private func setup(sprite: SKSpriteNode, named name: String) -> SKSpriteNode {
 }
 
 final class LogNode: SKNode {
-    let width: CGFloat
+    private let width: CGFloat
 
     init(gapAt y: CGFloat, gapHeight: CGFloat = kLogsGapHeight) {
         let topLog = setup(sprite: SKSpriteNode(texture: topTexture), named: "top-log")
@@ -49,19 +50,26 @@ final class LogNode: SKNode {
         self.addChild(bottomLog)
     }
 
-    func runMoveAnimation(size: CGSize) {
-        self.position.x = size.width / 2
+    /**
+     * Starts the animation from off-screen right to the off-screen left.
+     *
+     * - parameter node:   The node where the logs will be added to.
+     * - parameter bounds: The size of the screen the logs will move on, to calculate min/max X.
+     */
+    func runMoveAnimation(in node: SKNode, bounds: CGSize) {
+        self.position.x = bounds.width / 2
 
-        let delta = self.position.x + self.width + (size.width / 2)
+        let delta = self.position.x + self.width + (bounds.width / 2)
         let sequence = SKAction.sequence([
             SKAction.moveTo(
-                x: -self.width - (size.width / 2), duration: kLogSecondsPerPixel * delta
+                x: -self.width - (bounds.width / 2), duration: kLogSecondsPerPixel * delta
             ),
-            SKAction.moveTo(x: size.width / 2, duration: 0),
+            SKAction.moveTo(x: bounds.width / 2, duration: 0),
             SKAction.removeFromParent(),
         ])
 
         self.run(sequence)
+        node.addChild(self)
     }
 
     required init?(coder aDecoder: NSCoder) {

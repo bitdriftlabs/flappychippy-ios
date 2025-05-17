@@ -1,3 +1,4 @@
+import Capture
 import SpriteKit
 
 private let kRankingPadding = 20.0
@@ -21,18 +22,17 @@ final class RankingNode: SKNode {
         self.background.zPosition = self.zPosition
     }
 
-    func fetchRanking(initial: Ranking?, completion: @escaping (Ranking?) -> Void) {
-        if let initial {
-            self.createTable(ranking: initial)
-        }
+    func fetchRanking(initial: [Score], completion: @escaping ([Score]) -> Void) {
+        self.createTable(ranking: initial)
 
         Task {
             await MainActor.run { self.spinner.spin(in: self) }
-            let ranking = try? await self.api.ranking()
+            let ranking = (try? await self.api.ranking()) ?? []
             await MainActor.run {
                 self.spinner.stop()
                 self.createTable(ranking: ranking)
                 completion(ranking)
+                Logger.logDebug("Ranking returned", fields: ["count": ranking.count])
             }
         }
     }
@@ -41,16 +41,15 @@ final class RankingNode: SKNode {
         self.animateOut(duration: 0.2)
     }
 
-    private func createTable(ranking: Ranking?) {
-        let list = ranking?.ranking ?? []
-        if list.isEmpty {
+    private func createTable(ranking: [Score]) {
+        if ranking.isEmpty {
             let label = self.createLabel(text: "Nobody here!", aligned: .center, i: 0, count: 0)
             label.position.x = 0
         }
 
-        for (i, row) in list.enumerated() {
-            self.createLabel(text: row.short, aligned: .left, i: i, count: list.count)
-            self.createLabel(text: "\(row.score)", aligned: .right, i: i, count: list.count)
+        for (i, row) in ranking.enumerated() {
+            self.createLabel(text: row.short, aligned: .left, i: i, count: ranking.count)
+            self.createLabel(text: "\(row.score)", aligned: .right, i: i, count: ranking.count)
         }
     }
 

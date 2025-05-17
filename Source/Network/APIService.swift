@@ -94,9 +94,9 @@ extension APIService {
 
             if code >= 400 || code <= 0 {
                 let responseText = String(data: data, encoding: .utf8) ?? "<Unknown response>"
-                let error = try? JSONDecoder.api.decode(ResponseStatus.self, from: data)
+                let status = try? JSONDecoder.api.decode(ResponseStatus.self, from: data)
                 Logger.logError("⬅️🔴 \(request.debugURL) Error body: \(responseText)")
-                throw HTTPError(code: code, detail: error?.error ?? "Unknown error")
+                throw HTTPError(code: code, detail: status?.details ?? "Unknown error")
             }
 
             return data

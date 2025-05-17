@@ -1,3 +1,4 @@
+import Capture
 import SpriteKit
 
 final class ChippyNode: SKSpriteNode {
@@ -20,6 +21,11 @@ final class ChippyNode: SKSpriteNode {
         self.setupPhysicsBody(alive: false, falling: false)
     }
 
+    /**
+     * Make chippy start or stop flapping (animates the textures).
+     *
+     * - parameter on: A boolean indicating if the flap will begin (true) or stop (false)
+     */
     func flap(on: Bool = true) {
         self.removeAction(forKey: "flap")
         if on {
@@ -28,6 +34,11 @@ final class ChippyNode: SKSpriteNode {
         }
     }
 
+    /**
+     * Make chippy start floating up and down (used for the standby screens).
+     *
+     * - parameter on: A boolean indicating if the floating will begin (true) or stop (false)
+     */
     func float(on: Bool = true) {
         self.removeAction(forKey: "float")
         if on {
@@ -35,6 +46,9 @@ final class ChippyNode: SKSpriteNode {
         }
     }
 
+    /**
+     * Makes chippy react to physical elements in the world.
+     */
     func live() {
         self.flap(on: true)
         self.speed = 1
@@ -42,20 +56,34 @@ final class ChippyNode: SKSpriteNode {
         self.setupPhysicsBody(alive: true, falling: false)
     }
 
+    /**
+     * Applies a force such that it makes chippy jump up.
+     */
     func jump() {
+        Logger.logDebug("Chippy is jumping!")
         self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: kJumpImpulseY))
     }
 
+    /**
+     * Fall all the way to the ground. Happens after hitting a log.
+     */
     func fall() {
+        Logger.logDebug("Chippy is falling!")
         self.setupPhysicsBody(alive: true, falling: true)
         self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: kCollisionImpulseY))
     }
 
+    /**
+     * Chippy will not react to any physical elements anymore and will stop flapping.
+     */
     func die() {
+        Logger.logDebug("Chippy died")
         self.setupPhysicsBody(alive: false)
         self.flap(on: false)
     }
+
+    // MARK: - Private methods
 
     private func setupPhysicsBody(alive: Bool, falling: Bool = false) {
         self.physicsBody = SKPhysicsBody(

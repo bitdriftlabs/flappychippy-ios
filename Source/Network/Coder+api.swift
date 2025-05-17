@@ -29,6 +29,7 @@ extension JSONDecoder {
         }
     }
 
+    /// Standardize decoder that applies the strategy used by our API server.
     static let api = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase

@@ -11,7 +11,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Safe and lightweight call to initialize the crash reporting engine
         Logger.initFatalIssueReporting()
+        // Full logger initialization
         Logger
             .start(
                 withAPIKey: kBitdriftAPIKey,
@@ -27,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Logger.logError("Cannot activate audio session: \(error)")
         }
 
+        // Preload sounds and textures
         SKTextureAtlas.game.preload {}
         DispatchQueue.global(qos: .background).async(execute: Sound.preload)
 

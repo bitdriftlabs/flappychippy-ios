@@ -1,4 +1,4 @@
-import GameplayKit
+import Capture
 import SpriteKit
 
 enum SceneButton: String {
@@ -18,7 +18,7 @@ final class OnboardingNode: SKNode {
     private lazy var code = self.childNode(withName: "//code") as! ButtonNode
     private lazy var title = self.childNode(withName: "//title") as! SKSpriteNode
 
-    var lastKnownRanking: Ranking?
+    private var lastKnownRanking: [Score] = []
     private var touchedButton: ButtonNode?
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,22 +28,35 @@ final class OnboardingNode: SKNode {
         self.scoreBoard.isHidden = true
     }
 
+    /**
+     * Shows the UI with the score and game controls.
+     *
+     * - parameter best:  The best score the player scored since install
+     * - parameter score: The current game score
+     */
     func showScoresUI(best: Int, score: Int) {
+        Logger.logScreenView(screenName: "scores")
         self.ranking.animateIn(in: self)
         self.play.animateIn(in: self)
         self.code.animateIn(in: self)
         self.scoreBoard.animateIn(in: self)
 
-        let scores = self.lastKnownRanking?.ranking ?? []
-        let ranking = scores.firstIndex { $0.score <= best }
+        let ranking = self.lastKnownRanking.firstIndex { $0.score <= best }
         self.scoreBoard.setScores(best: best, score: score, ranking: ranking)
     }
 
+    /**
+     * Prefetch ranking array for fast access when presented. This also helps us known what medal the user has.
+     */
     func prefetchRanking() {
+        if self.lastKnownRanking.count > 0 { return }
+
         self.rankingPanel.fetchRanking(initial: self.lastKnownRanking) {
             self.lastKnownRanking = $0
         }
     }
+
+    // MARK: - Private methods
 
     private func hideUI() {
         self.ranking.animateOut()
@@ -54,12 +67,14 @@ final class OnboardingNode: SKNode {
     }
 
     private func openRepository() {
+        Logger.logScreenView(screenName: "github")
         if let url = URL(string: kFlappyChippyURL) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 
     private func showRanking() {
+        Logger.logScreenView(screenName: "ranking")
         self.rankingPanel.animateIn(in: self, duration: 0.2)
         self.rankingPanel.fetchRanking(initial: self.lastKnownRanking) {
             self.lastKnownRanking = $0

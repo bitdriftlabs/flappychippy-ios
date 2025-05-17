@@ -1,3 +1,4 @@
+import Capture
 import GameplayKit
 import SpriteKit
 import UIKit
@@ -13,10 +14,16 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.logScreenView(screenName: "registration")
+        Logger.startSpan(.onboarding)
 
         if UserManager.shared.loggedIn {
             self.backdrop.removeFromSuperview()
             self.registrationModal.removeFromSuperview()
+            Logger.endSpan(.onboarding, result: .success)
+            Logger.logScreenView(screenName: "landing")
+        } else {
+            Logger.startSpan(.registration, parent: .onboarding)
         }
 
         if let view = self.view as? SKView {
@@ -31,6 +38,8 @@ class GameViewController: UIViewController {
             view.showsPhysics = false
         }
     }
+
+    // MARK: - Private methods
 
     @IBAction
     private func keyUp() {
@@ -47,11 +56,20 @@ class GameViewController: UIViewController {
     private func register() {
         let email = self.emailLabel.text ?? ""
         let name = self.nameLabel.text ?? ""
+        Logger.logDebug("User try to register")
         Task {
+            Logger.startSpan(.registrationNetwork, parent: .onboarding)
             let result = try? await self.api.register(email: email, name: name)
-            if result?.ok == true {
+            Logger.endSpan(.registrationNetwork, result: result == true ? .success : .failure)
+
+            if result == true {
                 UserManager.shared.current = User(name: name, email: email, best: 0)
+            } else {
+                Logger.logError("Registration failed")
             }
+
+            Logger.endSpan(.registration, result: result == true ? .success : .failure)
+            Logger.endSpan(.onboarding, result: .success)
         }
 
         UIView.animate(
