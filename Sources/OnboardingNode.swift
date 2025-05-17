@@ -22,7 +22,7 @@ final class OnboardingNode: SKNode {
     private lazy var title = self.childNode(withName: "//title") as! SKSpriteNode
     // swiftlint:enable force_cast
 
-    private var lastKnownRanking: [Score] = []
+    private var lastKnownRanking: [Score]?
     private var touchedButton: ButtonNode?
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,17 +43,26 @@ final class OnboardingNode: SKNode {
         self.code.animateIn(in: self)
         self.scoreBoard.animateIn(in: self)
 
-        let ranking = self.lastKnownRanking.firstIndex { $0.score <= best }
+        let ranking = self.lastKnownRanking?.ranking(score: best)
         self.scoreBoard.setScores(best: best, score: score, ranking: ranking)
+        Logger.logInfo(
+            "Scoreboard shown",
+            fields: [
+                "best": best,
+                "score": score,
+                "ranking": ranking,
+                "score_ranking": self.lastKnownRanking?.ranking(score: score)
+            ]
+        )
     }
 
     /// Prefetch ranking array for fast access when presented. This also helps us known what medal the user has.
     func prefetchRanking() {
-        if !self.lastKnownRanking.isEmpty {
+        if self.lastKnownRanking != nil {
             return
         }
 
-        self.rankingPanel.fetchRanking(initial: self.lastKnownRanking) {
+        self.rankingPanel.fetchRanking(initial: nil) {
             self.lastKnownRanking = $0
         }
     }
@@ -93,5 +102,17 @@ extension OnboardingNode: ButtonTouchReceiver {
         case .some(.ranking): self.showRanking()
         case .none: break
         }
+    }
+}
+
+// MARK: - Helper extensions
+
+extension Array where Element == Score {
+    fileprivate func ranking(score: Int) -> Int? {
+        guard !isEmpty else {
+            return 0
+        }
+
+        return self.firstIndex { $0.score <= score }
     }
 }

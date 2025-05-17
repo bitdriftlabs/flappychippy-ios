@@ -25,17 +25,17 @@ final class RankingNode: SKNode {
         self.background.zPosition = self.zPosition
     }
 
-    func fetchRanking(initial: [Score], completion: @escaping ([Score]) -> Void) {
-        self.createTable(ranking: initial)
+    func fetchRanking(initial: [Score]?, completion: @escaping ([Score]?) -> Void) {
+        self.createTable(ranking: initial ?? [])
 
         Task {
             await MainActor.run { self.spinner.spin(in: self) }
-            let ranking = (try? await self.api.ranking()) ?? []
+            let ranking = try? await self.api.ranking()
             await MainActor.run {
                 self.spinner.stop()
-                self.createTable(ranking: ranking)
+                self.createTable(ranking: ranking ?? [])
                 completion(ranking)
-                Logger.logDebug("Ranking returned", fields: ["count": ranking.count])
+                Logger.logDebug("Ranking returned", fields: ["count": ranking?.count])
             }
         }
     }
