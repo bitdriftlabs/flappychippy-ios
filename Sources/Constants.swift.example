@@ -1,0 +1,15 @@
+import Foundation
+
+let kBitdriftAPIKey = ""
+let kBitdriftURL = URL(staticString: "https://api.bitdrift.io")
+let kFlappyChippyURL = URL(staticString: "https://github.com/bitdriftlabs/flappychippy-ios")
+let kTimeDistanceBetweenLogs = 1.0
+let kLogSecondsPerPixel = 0.005
+let kLogsGapHeight = 140.0
+let kMinChippyAngle = -1.0
+let kMaxChippyAngle = 0.6
+let kMinScreenPadding = 200.0
+let kJumpImpulseY = 40
+let kCollisionImpulseY = kJumpImpulseY / 2
+let kGravityForce = -7.0
+let kBackgroundDurationPerPixel = 0.01

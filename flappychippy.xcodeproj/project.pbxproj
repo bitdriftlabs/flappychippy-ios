@@ -15,6 +15,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5B8C5D432DD908C300266424 /* Exceptions for "Sources" folder in "flappychippy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Constants.swift.example,
+			);
+			target = 5BB004A22DD2565300C4F4EC /* flappychippy */;
+		};
 		5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "flappychippy" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -25,9 +32,12 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5BF1CE4D2DD3217700F79D05 /* Source */ = {
+		5BF1CE4D2DD3217700F79D05 /* Sources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Source;
+			exceptions = (
+				5B8C5D432DD908C300266424 /* Exceptions for "Sources" folder in "flappychippy" target */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		5BF1CE802DD3232700F79D05 /* Resources */ = {
@@ -60,7 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				5BF1CE802DD3232700F79D05 /* Resources */,
-				5BF1CE4D2DD3217700F79D05 /* Source */,
+				5BF1CE4D2DD3217700F79D05 /* Sources */,
 				5BB004A42DD2565300C4F4EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,7 +99,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5BF1CE4D2DD3217700F79D05 /* Source */,
+				5BF1CE4D2DD3217700F79D05 /* Sources */,
 				5BF1CE802DD3232700F79D05 /* Resources */,
 			);
 			name = flappychippy;

@@ -55,3 +55,4 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+Constants.swift
