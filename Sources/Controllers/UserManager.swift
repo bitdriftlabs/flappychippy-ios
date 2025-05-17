@@ -1,3 +1,4 @@
+import Capture
 import Foundation
 
 struct UserManager {
@@ -15,6 +16,7 @@ struct UserManager {
             UserDefaults.standard.set(self.current.email, forKey: "email")
             UserDefaults.standard.set(self.current.name, forKey: "name")
             UserDefaults.standard.set(self.current.best, forKey: "best")
+            Logger.addField(withKey: "user_id", value: self.current.userID)
         }
     }
 
