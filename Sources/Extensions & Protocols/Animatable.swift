@@ -35,7 +35,7 @@ extension Animatable where Self: SKNode {
             .fadeAlpha(to: 0, duration: duration),
         ])
         animation.timingMode = .easeInEaseOut
-        self.run(animation, completion: completion ?? {})
+        self.run(.sequence([animation, .removeFromParent()]), completion: completion ?? {})
     }
 }
 

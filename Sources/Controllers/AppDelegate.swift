@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Logger
             .start(
                 withAPIKey: kBitdriftAPIKey,
-                sessionStrategy: .fixed(),
+                sessionStrategy: .activityBased(),
                 apiURL: kBitdriftURL
             )?
             .enableIntegrations([.urlSession()])
