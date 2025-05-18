@@ -3,11 +3,26 @@ import SpriteKit
 
 private let kRankingPadding = 20.0
 private let kRowHeight = 30.0
-private let kCloseButtonOffset = -21.0
 
 private enum RankingButton: String {
     case back
 }
+
+extension SKNode {
+
+    func drawBorder(color: UIColor, width: CGFloat) {
+        let shapeNode = SKShapeNode(rect: frame)
+        shapeNode.fillColor = .clear
+        shapeNode.strokeColor = color
+        shapeNode.lineWidth = width
+        let border = SKPhysicsBody(edgeLoopFrom: shapeNode.frame)
+        border.friction = 0
+        border.restitution = 1
+        physicsBody = border
+        addChild(shapeNode)
+    }
+}
+
 
 final class RankingNode: SKNode {
     // swiftlint:disable force_cast
@@ -15,6 +30,7 @@ final class RankingNode: SKNode {
     // swiftlint:enable force_cast
 
     private var scale: CGFloat = 1
+    private let rows = SKNode()
     private let spinner = SpinnerNode()
     private let api = API(session: .shared)
 
@@ -23,10 +39,14 @@ final class RankingNode: SKNode {
         self.scale = max(self.xScale, self.yScale)
         self.zPosition = LayerPriority.panels + 3
         self.background.zPosition = self.zPosition
+        self.addChild(self.rows)
     }
 
     func fetchRanking(initial: [Score]?, completion: @escaping ([Score]?) -> Void) {
-        self.createTable(ranking: initial ?? [])
+        self.clear()
+        if let initial {
+            self.createTable(ranking: initial)
+        }
 
         Task {
             await MainActor.run { self.spinner.spin(in: self) }
@@ -40,13 +60,19 @@ final class RankingNode: SKNode {
         }
     }
 
+    private func clear() {
+        self.rows.children.forEach { $0.removeFromParent() }
+    }
+
     private func goBack() {
         self.animateOut(duration: 0.2)
     }
 
     private func createTable(ranking: [Score]) {
+        self.clear()
+
         if ranking.isEmpty {
-            let label = self.createLabel(text: "Nobody here!", aligned: .center, i: 0, count: 0)
+            let label = self.createLabel(text: "Nobody here!", aligned: .center, i: 0, count: 1)
             label.position.x = 0
         }
 
@@ -71,14 +97,19 @@ final class RankingNode: SKNode {
         }
 
         let label = SKLabelNode(text: text)
+        label.name = "ranking_\(i)"
         label.fontName = "Kongtext"
         label.fontColor = .text
         label.fontSize = 20
         label.horizontalAlignmentMode = aligned
-        label.position.y = kRowHeight * CGFloat((count / 2) - i) + kCloseButtonOffset
+        label.position.y = kRowHeight * ((CGFloat(count) / 2) - CGFloat(i) - 0.5)
         label.position.x = -(xSign * self.background.size.width) / 2 + (xSign * kRankingPadding)
         label.zPosition = self.zPosition + 1
-        self.addChild(label)
+
+        // Center label in expected row height
+        let deltaY = kRowHeight - label.frame.height
+        label.position.y -= deltaY / 2 + 1
+        self.rows.addChild(label)
 
         if !shadow {
             let scoreShadow = self.createLabel(

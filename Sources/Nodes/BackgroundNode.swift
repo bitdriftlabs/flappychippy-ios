@@ -67,6 +67,7 @@ final class BackgroundNode: SKNode {
                 width: scene.size.width, height: scene.size.height - bgHeight
             )
         )
+        bottomGround.name = "bottom-solid-color"
         bottomGround.fillColor = .ground
         bottomGround.strokeColor = .clear
         bottomGround.zPosition = LayerPriority.ground + 1

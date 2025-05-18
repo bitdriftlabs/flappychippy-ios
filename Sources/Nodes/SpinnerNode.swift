@@ -68,6 +68,7 @@ final class SpinnerNode: SKNode {
         }
 
         super.init()
+        self.name = "spinner"
         self.zPosition = LayerPriority.panels + 1
         self.lines.forEach(self.addChild)
     }
