@@ -95,15 +95,15 @@ final class SpinnerNode: SKNode {
                         let previousIndex = (i - 1 + self.lines.count) % self.lines.count
 
                         self.lines[previousIndex].run(
-                            .fadeAlpha(to: kLineAlphaInactive, duration: 0.15)
+                            .fadeAlpha(to: kLineAlphaInactive, duration: 0.15),
                         )
                         self.lines[i].run(
-                            .fadeAlpha(to: 1, duration: 0.15)
+                            .fadeAlpha(to: 1, duration: 0.15),
                         )
                     },
                     .wait(forDuration: 0.15),
-                ])
-            )
+                ]),
+            ),
         )
     }
 }

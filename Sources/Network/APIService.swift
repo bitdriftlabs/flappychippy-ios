@@ -39,7 +39,7 @@ final class TaskDelegateWithProgress: NSObject, URLSessionTaskDelegate {
         task _: URLSessionTask,
         didSendBodyData _: Int64,
         totalBytesSent: Int64,
-        totalBytesExpectedToSend: Int64
+        totalBytesExpectedToSend: Int64,
     ) {
         self.closure(Double(totalBytesSent) / Double(totalBytesExpectedToSend))
     }
@@ -49,7 +49,7 @@ extension APIService {
     /// Sends a POST request with the given parameters encoded as JSON. Returns the decoded object.
     ///
     /// - parameter endpoint: The destination endpoint for the request
-    /// - parameter params: The parameters to send as a JSON blob
+    /// - parameter params:   The parameters to send as a JSON blob
     func post<T>(_ endpoint: Endpoint, params: Any) async throws -> T where T: Decodable {
         var request = URLRequest(url: endpoint.asURL())
         request.httpMethod = "POST"
@@ -63,7 +63,7 @@ extension APIService {
     /// Sends a GET request with the given parameters encoded in the URL. Returns the decoded object.
     ///
     /// - parameter endpoint: The destination endpoint for the request
-    /// - parameter params: The parameters to be encoded into the URL
+    /// - parameter params:   The parameters to be encoded into the URL
     func get<T>(_ endpoint: Endpoint, params: [String: String] = [:]) async throws -> T where T: Decodable {
         var urlParameters = URLComponents(url: endpoint.asURL(), resolvingAgainstBaseURL: false)
         urlParameters?.queryItems =

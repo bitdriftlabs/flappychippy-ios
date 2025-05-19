@@ -7,7 +7,7 @@ public struct AppEnvironment: Sendable {
 
     /// Production environment. Should not be used for testing.
     public static let prod = Self(
-        baseURL: URL(staticString: "https://chippy.bitdrift.io/")
+        baseURL: URL(staticString: "https://chippy.bitdrift.io/"),
     )
 
     /// The current selected environment is decided based on compiler flags for now. We keep this as a `var` to be able to

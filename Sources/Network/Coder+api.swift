@@ -11,14 +11,17 @@ extension JSONEncoder {
 }
 
 extension JSONDecoder {
-    /// Decode JSON using JSONDecoder() and additionally log any error that might have happened during decoder.
+    /// Decode JSON using JSONDecoder() and additionally log any error that might have happened during
+    /// decoder.
     ///
     /// - parameter type: The type of the value to decode.
     /// - parameter data: The data to decode from.
-    /// - returns: A value of the requested type.
-    /// - throws: `DecodingError.dataCorrupted` if values requested from the payload are corrupted, or if the given data
+    ///
+    /// - throws: `DecodingError.dataCorrupted` if values requested from the payload are corrupted, or if the
+    ///           given data
     ///           is not valid JSON.
-    /// - throws: An error if any value throws an error during decoding.
+    ///           - throws: An error if any value throws an error during decoding.
+    /// - returns: A value of the requested type.
     func decodeAndLog<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
         do {
             return try self.decode(type, from: data)

@@ -9,7 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(
         _: UIApplication,
-        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?,
     ) -> Bool {
         // Safe and lightweight call to initialize the crash reporting engine
         Logger.initFatalIssueReporting()
@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .start(
                 withAPIKey: kBitdriftAPIKey,
                 sessionStrategy: .activityBased(),
-                apiURL: kBitdriftURL
+                apiURL: kBitdriftURL,
             )?
             .enableIntegrations([.urlSession()])
 

@@ -9,7 +9,6 @@ private enum RankingButton: String {
 }
 
 extension SKNode {
-
     func drawBorder(color: UIColor, width: CGFloat) {
         let shapeNode = SKShapeNode(rect: frame)
         shapeNode.fillColor = .clear
@@ -22,7 +21,6 @@ extension SKNode {
         addChild(shapeNode)
     }
 }
-
 
 final class RankingNode: SKNode {
     // swiftlint:disable force_cast
@@ -85,7 +83,7 @@ final class RankingNode: SKNode {
     @discardableResult
     private func createLabel(
         text: String, aligned: SKLabelHorizontalAlignmentMode, i: Int, shadow: Bool = false,
-        count: Int
+        count: Int,
     )
         -> SKLabelNode
     {
@@ -114,7 +112,7 @@ final class RankingNode: SKNode {
         if !shadow {
             let scoreShadow = self.createLabel(
                 text: text, aligned: aligned, i: i, shadow: true,
-                count: count
+                count: count,
             )
             scoreShadow.fontColor = .shadow
             scoreShadow.zPosition -= 0.5

@@ -9,7 +9,7 @@ final class ButtonNode: SKSpriteNode {
         self.isUserInteractionEnabled = true
         let node = SKShapeNode(rectOf: CGSize(
             width: max(self.size.width, kMinimumTapableDimension),
-            height: max(self.size.height, kMinimumTapableDimension)
+            height: max(self.size.height, kMinimumTapableDimension),
         ))
         node.name = "\(self.name ?? "<null>")-tappable-area"
         node.strokeColor = .clear

@@ -51,8 +51,8 @@ final class OnboardingNode: SKNode {
                 "best": best,
                 "score": score,
                 "ranking": ranking,
-                "score_ranking": self.lastKnownRanking?.ranking(score: score)
-            ]
+                "score_ranking": self.lastKnownRanking?.ranking(score: score),
+            ],
         )
     }
 

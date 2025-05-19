@@ -20,10 +20,11 @@ struct UserManager {
         }
     }
 
-    /// Sends the user registration to the server, this call silently fails, but luckly we can see failures in Capture's default network
+    /// Sends the user registration to the server, this call silently fails, but luckly we can see failures in
+    /// Capture's default network
     /// instrumentation.
     ///
-    /// - parameter name: The name of the player, used in the ranking.
+    /// - parameter name:  The name of the player, used in the ranking.
     /// - parameter email: The email of the player.
     mutating func register(name: String, email: String) async {
         let result = try? await self.api.register(email: email, name: name)

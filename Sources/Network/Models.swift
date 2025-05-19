@@ -1,5 +1,5 @@
-import Foundation
 import CryptoKit
+import Foundation
 
 /// Status obect that is returning in some non-200 response as well as endpoints without a returned model
 struct ResponseStatus: Codable {

@@ -26,8 +26,10 @@ extension Capture.Logger {
 
     /// Helper function to start a span based on the below span enum.
     ///
-    /// - parameter span:   The span enum to start. It will be tracked on the hashmap. Any existing span will be canceled.
-    /// - parameter parent: The parent span (by its enum case) to locate in the map and associate to this span.
+    /// - parameter span:   The span enum to start. It will be tracked on the hashmap. Any existing span will
+    ///                     be canceled.
+    /// - parameter parent: The parent span (by its enum case) to locate in the map and associate to this
+    ///                     span.
     /// - parameter level:  The verbosity level the span log will be emitted with (eg debug, info, etc)
     static func startSpan(_ span: GameSpan, parent: GameSpan? = nil, level: LogLevel = .debug) {
         if self.spanMap.keys.contains(span) {

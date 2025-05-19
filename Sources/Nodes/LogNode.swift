@@ -36,7 +36,7 @@ final class LogNode: SKNode {
         gapNode.position.y = y
         gapNode.physicsBody = SKPhysicsBody(
             rectangleOf: CGSize(width: topLog.size.width / 2, height: gapHeight),
-            center: CGPoint(x: topLog.size.width * 0.75, y: 0)
+            center: CGPoint(x: topLog.size.width * 0.75, y: 0),
         )
         gapNode.physicsBody?.isDynamic = false
         gapNode.physicsBody?.categoryBitMask = CollisonMasks.score
@@ -60,7 +60,7 @@ final class LogNode: SKNode {
         let delta = self.position.x + self.width + (bounds.width / 2)
         let sequence = SKAction.sequence([
             SKAction.moveTo(
-                x: -self.width - (bounds.width / 2), duration: kLogSecondsPerPixel * delta
+                x: -self.width - (bounds.width / 2), duration: kLogSecondsPerPixel * delta,
             ),
             SKAction.moveTo(x: bounds.width / 2, duration: 0),
             SKAction.removeFromParent(),

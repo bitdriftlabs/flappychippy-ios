@@ -75,7 +75,7 @@ final class ChippyNode: SKSpriteNode {
 
     private func setupPhysicsBody(alive: Bool, falling: Bool = false) {
         self.physicsBody = SKPhysicsBody(
-            circleOfRadius: self.size.width / 2, center: CGPoint(x: -10, y: 0)
+            circleOfRadius: self.size.width / 2, center: CGPoint(x: -10, y: 0),
         )
         self.physicsBody?.velocity = .zero
         self.physicsBody?.categoryBitMask = Body.chippy

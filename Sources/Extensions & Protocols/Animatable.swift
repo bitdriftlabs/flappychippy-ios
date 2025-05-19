@@ -4,9 +4,10 @@ import SpriteKit
 protocol Animatable: AnyObject {}
 
 extension Animatable where Self: SKNode {
-    /// Animates an SKNode in, this method assumes the node is not being shown at the moment and starts from scale=0 alpha=0.
+    /// Animates an SKNode in, this method assumes the node is not being shown at the moment and starts from
+    /// scale=0 alpha=0.
     ///
-    /// - parameter node: The parent node where the receiver will be added to.
+    /// - parameter node:     The parent node where the receiver will be added to.
     /// - parameter duration: The animation total duration (default: 0.3s).
     func animateIn(in node: SKNode, duration: TimeInterval = 0.3) {
         node.addChildIfOrphaned(self)
@@ -27,7 +28,7 @@ extension Animatable where Self: SKNode {
 
     /// Animates an SKNode out, this method assumes the node is shown at the moment.
     ///
-    /// - parameter duration: The animation total duration (default: 0.3s).
+    /// - parameter duration:   The animation total duration (default: 0.3s).
     /// - parameter completion: An optional callback that will be called once the animation completes.
     func animateOut(duration: TimeInterval = 0.3, completion: (() -> Void)? = nil) {
         let animation = SKAction.group([

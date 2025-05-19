@@ -11,16 +11,17 @@ final class BackgroundNode: SKNode {
     required init?(coder aDecoder: NSCoder) {
         self.ground = (
             SKSpriteNode(texture: Self.groundTexture),
-            SKSpriteNode(texture: Self.groundTexture)
+            SKSpriteNode(texture: Self.groundTexture),
         )
         self.background = (
             SKSpriteNode(texture: Self.backgroundTexture),
-            SKSpriteNode(texture: Self.backgroundTexture)
+            SKSpriteNode(texture: Self.backgroundTexture),
         )
         super.init(coder: aDecoder)
     }
 
-    /// Loop the background elements, the factory far behind move slower than the ground, creating a parallax effect.
+    /// Loop the background elements, the factory far behind move slower than the ground, creating a parallax
+    /// effect.
     func loop() {
         self.loopElements(self.background, durationPerPixel: kBackgroundDurationPerPixel)
         self.loopElements(self.ground, durationPerPixel: kLogSecondsPerPixel)
@@ -64,8 +65,8 @@ final class BackgroundNode: SKNode {
         let bottomGround = SKShapeNode(
             rect: CGRect(
                 x: -scene.size.width / 2, y: -scene.size.height / 2,
-                width: scene.size.width, height: scene.size.height - bgHeight
-            )
+                width: scene.size.width, height: scene.size.height - bgHeight,
+            ),
         )
         bottomGround.name = "bottom-solid-color"
         bottomGround.fillColor = .ground

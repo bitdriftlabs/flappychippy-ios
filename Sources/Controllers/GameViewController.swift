@@ -78,7 +78,7 @@ class GameViewController: UIViewController {
             completion: { _ in
                 self.registrationModal.removeFromSuperview()
                 self.backdrop.removeFromSuperview()
-            }
+            },
         )
     }
 }

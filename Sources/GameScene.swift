@@ -73,7 +73,7 @@ final class GameScene: SKScene {
         }
 
         let rotation = min(
-            max(kMinChippyAngle, velocity.dy * (velocity.dy < 0.4 ? 0.003 : 0.001)), kMaxChippyAngle
+            max(kMinChippyAngle, velocity.dy * (velocity.dy < 0.4 ? 0.003 : 0.001)), kMaxChippyAngle,
         )
         let rotationPercent = (rotation - kMinChippyAngle) / (kMaxChippyAngle - kMinChippyAngle)
         self.chippy.run(.rotate(toAngle: rotation, duration: 0.1))
@@ -100,7 +100,7 @@ final class GameScene: SKScene {
 
     private func moveLogs() {
         let gapY = CGFloat.random(
-            in: self.bgNode.groundY + kMinScreenPadding..<(self.size.height / 2) - kMinScreenPadding
+            in: self.bgNode.groundY + kMinScreenPadding..<(self.size.height / 2) - kMinScreenPadding,
         )
 
         let reducedGap = min((CGFloat(score) / 10.0) * 3, 12.0)
@@ -124,9 +124,9 @@ final class GameScene: SKScene {
                 .sequence([
                     .run(self.moveLogs),
                     .wait(forDuration: kTimeDistanceBetweenLogs),
-                ])
+                ]),
             ),
-            withKey: "logs"
+            withKey: "logs",
         )
 
         self.chippy.live()
@@ -174,20 +174,20 @@ final class GameScene: SKScene {
                 .run(Sound.hit.play),
                 .wait(forDuration: 0.3),
                 .run(Sound.die.play),
-            ])
+            ]),
         )
 
         let user = UserManager.shared.current
         if finalScore > user.best {
             Logger.logInfo(
-                "User beat his best score", fields: ["score": finalScore, "best": user.best]
+                "User beat his best score", fields: ["score": finalScore, "best": user.best],
             )
             UserManager.shared.current = User(name: user.name, email: user.email, best: finalScore)
         }
 
         Task {
             try? await self.api.post(
-                score: finalScore, name: user.name, email: user.email
+                score: finalScore, name: user.name, email: user.email,
             )
         }
     }
@@ -203,7 +203,7 @@ extension GameScene: SKPhysicsContactDelegate {
             Logger.endSpan(.beforeFirstLog, result: .success)
             Logger.endSpan(.jumping, result: .success)
             Logger.logInfo(
-                "Chippy crossed a log", fields: ["score": self.score, "best_score": user.best]
+                "Chippy crossed a log", fields: ["score": self.score, "best_score": user.best],
             )
 
             Logger.startSpan(.jumping, parent: .game)
