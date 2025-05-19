@@ -154,6 +154,7 @@ final class GameScene: SKScene {
         }
 
         Logger.logInfo("Game over")
+        Logger.endSpan(.jumping, result: .success)
         Logger.endSpan(.game, result: .success)
         Logger.endSpan(.beforeFirstLog, result: .canceled)
 
