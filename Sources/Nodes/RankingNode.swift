@@ -30,7 +30,7 @@ final class RankingNode: SKNode {
     private var scale: CGFloat = 1
     private let rows = SKNode()
     private let spinner = SpinnerNode()
-    private let api = API(session: .shared)
+    private let api = API()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

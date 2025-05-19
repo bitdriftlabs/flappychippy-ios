@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,24 +22,19 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.58451226803046363" colorSpace="custom" customColorSpace="displayP3"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jpD-3i-4Ac" userLabel="Sign Up">
-                                <rect key="frame" x="5" y="293.66666666666669" width="383" height="265.00000000000006"/>
+                                <rect key="frame" x="5" y="292" width="383" height="268.33333333333326"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="resizable-panel" translatesAutoresizingMaskIntoConstraints="NO" id="Gnd-xS-owg" userLabel="Background">
-                                        <rect key="frame" x="0.0" y="0.0" width="383" height="265"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="383" height="268.33333333333331"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Hps-os-5vF" userLabel="Form">
-                                        <rect key="frame" x="20" y="20" width="343" height="225"/>
+                                        <rect key="frame" x="20" y="20.000000000000014" width="343" height="228.33333333333337"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNLOCK THE DROP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tb4-bc-81J">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="37"/>
-                                                <fontDescription key="fontDescription" name="04b19" family="04b_19" pointSize="35"/>
-                                                <color key="textColor" red="0.9882352941176471" green="0.56889040898617516" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                                <color key="shadowColor" name="shadowColor"/>
-                                                <size key="shadowOffset" width="0.0" height="2"/>
-                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="unlockTheDrop" translatesAutoresizingMaskIntoConstraints="NO" id="zyi-mF-g2T">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="40.333333333333336"/>
+                                            </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="hG5-E1-SWe">
-                                                <rect key="frame" x="0.0" y="62" width="343" height="30"/>
+                                                <rect key="frame" x="0.0" y="65.333333333333314" width="343" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpJ-Rx-VLf">
                                                         <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
@@ -83,7 +78,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="wU3-SU-s0a">
-                                                <rect key="frame" x="0.0" y="117" width="343" height="30"/>
+                                                <rect key="frame" x="0.0" y="120.33333333333331" width="343" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="EMAIL" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QWV-vz-lyu">
                                                         <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
@@ -127,7 +122,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Lb-9i-9H2">
-                                                <rect key="frame" x="0.0" y="172" width="343" height="53"/>
+                                                <rect key="frame" x="0.0" y="175.33333333333331" width="343" height="53"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zk4-2O-E0G">
                                                         <rect key="frame" x="124" y="0.0" width="95" height="53"/>
@@ -200,6 +195,7 @@
         <image name="resizable-panel" width="23" height="24"/>
         <image name="submit" width="95" height="53"/>
         <image name="submit-highlight" width="95" height="53"/>
+        <image name="unlockTheDrop" width="220.33332824707031" height="40.333332061767578"/>
         <namedColor name="ground">
             <color red="0.16862745098039217" green="0.15294117647058825" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

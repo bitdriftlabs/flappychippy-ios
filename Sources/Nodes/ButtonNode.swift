@@ -55,3 +55,11 @@ extension ButtonNode {
         self.animateTouchEnded()
     }
 }
+
+// MARK: - Capture Session Replay categorizer
+
+extension ButtonNode: ReplayIdentifiable {
+    func identify(frame: CGRect) -> AnnotatedView? {
+        AnnotatedView(.button, frame: frame)
+    }
+}

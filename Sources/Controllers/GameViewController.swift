@@ -10,14 +10,14 @@ class GameViewController: UIViewController {
     @IBOutlet private var nameLabel: UITextField!
     @IBOutlet private var submitButton: UIButton!
 
-    private let api = API(session: .shared)
+    private let api = API()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         Logger.logScreenView(screenName: "registration")
         Logger.startSpan(.onboarding)
 
-        if UserManager.shared.loggedIn {
+        if PlayerManager.shared.loggedIn {
             self.backdrop.removeFromSuperview()
             self.registrationModal.removeFromSuperview()
             Logger.endSpan(.onboarding, result: .success)
@@ -56,12 +56,10 @@ class GameViewController: UIViewController {
         Logger.logDebug("User try to register")
         Task {
             Logger.startSpan(.registrationNetwork, parent: .onboarding)
-            let result = try? await self.api.register(email: email, name: name)
+            let result = await PlayerManager.shared.register(name: name, email: email)
             Logger.endSpan(.registrationNetwork, result: result == true ? .success : .failure)
 
-            if result == true {
-                UserManager.shared.current = User(name: name, email: email, best: 0)
-            } else {
+            if result != true {
                 Logger.logError("Registration failed")
             }
 

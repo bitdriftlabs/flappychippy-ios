@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 sessionStrategy: .activityBased(),
                 apiURL: kBitdriftURL,
             )?
-            .enableIntegrations([.urlSession()])
+            .enableIntegrations([.urlSession()], disableSwizzling: true)
 
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)

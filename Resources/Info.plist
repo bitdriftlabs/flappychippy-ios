@@ -5,8 +5,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/pixel.ttf</string>
-		<string>fonts/outside.ttf</string>
-		<string>fonts/inside.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

@@ -34,20 +34,20 @@ final class GameScene: SKScene {
     private lazy var chippy = self.childNode(withName: "//chippy") as! ChippyNode
     private lazy var taptap = self.childNode(withName: "//taptap") as! SKSpriteNode
     private lazy var getReady = self.childNode(withName: "//get-ready") as! SKSpriteNode
-    private lazy var scoreLabel = self.childNode(withName: "//score") as! LabelWithShadowNode
+    private lazy var scoreLabel = self.childNode(withName: "//score") as! NumberLabelNode
     private lazy var gameOver = self.childNode(withName: "//game-over") as! SKSpriteNode
     private lazy var onboarding = self.childNode(withName: "//onboarding") as! OnboardingNode
     // swiftlint:enable force_unwrapping
     // swiftlint:enable force_cast
 
-    private let api = API(session: .shared)
+    private let api = API()
     private var touchedButton: ButtonNode?
     private var state: GameState = .onboarding
     private var previousScore = 0
     private var score = 0 {
         didSet {
             self.previousScore = oldValue
-            self.scoreLabel.text = "\(self.score)"
+            self.scoreLabel.value = self.score
         }
     }
 
@@ -178,17 +178,17 @@ final class GameScene: SKScene {
             ]),
         )
 
-        let user = UserManager.shared.current
-        if finalScore > user.best {
+        let player = PlayerManager.shared.player
+        if finalScore > player.best {
             Logger.logInfo(
-                "User beat his best score", fields: ["score": finalScore, "best": user.best],
+                "Player beat his best score", fields: ["score": finalScore, "best": player.best],
             )
-            UserManager.shared.current = User(name: user.name, email: user.email, best: finalScore)
+            PlayerManager.shared.update(best: finalScore)
         }
 
         Task {
             try? await self.api.post(
-                score: finalScore, name: user.name, email: user.email,
+                score: finalScore, name: player.name, email: player.email,
             )
         }
     }
@@ -198,13 +198,13 @@ final class GameScene: SKScene {
 
 extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
-        let user = UserManager.shared.current
+        let player = PlayerManager.shared.player
         if self.state == .playing && contact.category(is: Body.score) {
             self.incrementScore()
             Logger.endSpan(.beforeFirstLog, result: .success)
             Logger.endSpan(.jumping, result: .success)
             Logger.logInfo(
-                "Chippy crossed a log", fields: ["score": self.score, "best_score": user.best],
+                "Chippy crossed a log", fields: ["score": self.score, "best_score": player.best],
             )
 
             Logger.startSpan(.jumping, parent: .game)
@@ -214,7 +214,7 @@ extension GameScene: SKPhysicsContactDelegate {
         } else if contact.category(is: Body.ground) {
             self.endGame()
             self.chippy.die()
-            self.onboarding.showScoresUI(best: user.best, score: self.score)
+            self.onboarding.showScoresUI(best: player.best, score: self.score)
         }
     }
 }

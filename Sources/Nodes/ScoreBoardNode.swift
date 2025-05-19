@@ -7,10 +7,8 @@ final class ScoreBoardNode: SKNode {
         SKTextureAtlas.game.textureNamed("medal-copper"),
     ]
     // swiftlint:disable force_cast
-    private lazy var bestLabel = self.childNode(withName: "best") as! SKLabelNode
-    private lazy var bestLabelShadow = self.childNode(withName: "best-shadow") as! SKLabelNode
-    private lazy var scoreLabel = self.childNode(withName: "score") as! SKLabelNode
-    private lazy var scoreLabelShadow = self.childNode(withName: "score-shadow") as! SKLabelNode
+    private lazy var bestLabel = self.childNode(withName: "best") as! NumberLabelNode
+    private lazy var scoreLabel = self.childNode(withName: "score") as! NumberLabelNode
     private lazy var medal = self.childNode(withName: "medal") as! SKSpriteNode
     // swiftlint:enable force_cast
 
@@ -20,10 +18,8 @@ final class ScoreBoardNode: SKNode {
     }
 
     func setScores(best: Int, score: Int, ranking: Int?) {
-        self.bestLabel.text = "\(best)"
-        self.bestLabelShadow.text = "\(best)"
-        self.scoreLabel.text = "\(score)"
-        self.scoreLabelShadow.text = "\(score)"
+        self.bestLabel.value = best
+        self.scoreLabel.value = score
 
         if let ranking {
             self.medal.isHidden = ranking < 0 || ranking > 2

@@ -1,22 +1,21 @@
 import Capture
 import Foundation
 
-struct UserManager {
-    private let api = API(session: .shared)
+struct PlayerManager {
+    private let api = API()
 
     /// UserManager singleton for simplicity
     static var shared: Self = .init()
 
     /// Helper shortcut to return whether the user signed up or not.
-    var loggedIn: Bool { !self.current.email.isEmpty }
+    var loggedIn: Bool { self.player.registered }
 
     /// Returns the current logged in user if any
-    var current = Self.load() {
+    var player = Self.load() {
         didSet {
-            UserDefaults.standard.set(self.current.email, forKey: "email")
-            UserDefaults.standard.set(self.current.name, forKey: "name")
-            UserDefaults.standard.set(self.current.best, forKey: "best")
-            Logger.addField(withKey: "user_id", value: self.current.userID)
+            let data = try? JSONEncoder().encode(self.player)
+            UserDefaults.standard.set(data, forKey: "player")
+            Logger.addField(withKey: "user_id", value: self.player.playerID)
         }
     }
 
@@ -26,24 +25,37 @@ struct UserManager {
     ///
     /// - parameter name:  The name of the player, used in the ranking.
     /// - parameter email: The email of the player.
-    mutating func register(name: String, email: String) async {
+    mutating func register(name: String, email: String) async -> Bool {
         let result = try? await self.api.register(email: email, name: name)
-        if result == true {
-            self.current = User(name: name, email: email, best: 0)
-        }
+        self.player = Player(name: name, email: email, best: self.player.best,
+                             registered: result == true)
+        return result == true
+    }
+
+    ///
+    /// Update best's player score and store in defaults.
+    ///
+    /// - parameter best: The new best score the player got.
+    mutating func update(best: Int) {
+        self.player = Player(
+            name: self.player.name,
+            email: self.player.email,
+            best: best,
+            registered: self.player.registered
+        )
     }
 
     // MARK: - Private methods
 
-    private static func load() -> User {
+    private static func load() -> Player {
         let best = UserDefaults.standard.integer(forKey: "best")
         guard
-            let name = UserDefaults.standard.string(forKey: "name"),
-            let email = UserDefaults.standard.string(forKey: "email")
+            let data = UserDefaults.standard.data(forKey: "player"),
+            let player = try? JSONDecoder().decode(Player.self, from: data)
         else {
-            return User(name: "", email: "", best: best)
+            return Player(name: "", email: "", best: best, registered: false)
         }
 
-        return User(name: name, email: email, best: best)
+        return player
     }
 }

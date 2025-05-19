@@ -2,6 +2,12 @@ import Foundation
 
 /// Contains all API operations, all return objects are decoded using our JSONDecoder.api extension.
 struct API: APIService {
+    static let sharedSession = URLSession(
+      instrumentedSessionWithConfiguration: .default,
+      delegate: nil,
+      delegateQueue: nil
+    )
+
     enum Endpoint: String, URLConvertible {
         case ranking = "/ranking"
         case register = "/register"
@@ -9,7 +15,7 @@ struct API: APIService {
         func asURL() -> URL { self.baseURL.appendingPathComponent(self.rawValue) }
     }
 
-    var session: URLSession
+    var session: URLSession { Self.sharedSession }
 
     /// Registers a new user by its name and email.
     ///
