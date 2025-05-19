@@ -7,7 +7,7 @@ final class ButtonNode: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.isUserInteractionEnabled = true
-        let node = SKShapeNode(rectOf: CGSize(
+        let node = FillerNode(rectOf: CGSize(
             width: max(self.size.width, kMinimumTapableDimension),
             height: max(self.size.height, kMinimumTapableDimension),
         ))
@@ -61,5 +61,11 @@ extension ButtonNode {
 extension ButtonNode: ReplayIdentifiable {
     func identify(frame: CGRect) -> AnnotatedView? {
         AnnotatedView(.button, frame: frame)
+    }
+}
+
+final class FillerNode: SKShapeNode, ReplayIdentifiable {
+    func identify(frame: CGRect) -> AnnotatedView? {
+        return .skipped
     }
 }

@@ -57,3 +57,4 @@ playground.xcworkspace
 .build/
 Constants.swift
 Frameworks/Capture.xcframework
+Temp.swift
