@@ -3,9 +3,9 @@ import Foundation
 /// Contains all API operations, all return objects are decoded using our JSONDecoder.api extension.
 struct API: APIService {
     static let sharedSession = URLSession(
-      instrumentedSessionWithConfiguration: .default,
-      delegate: nil,
-      delegateQueue: nil
+        instrumentedSessionWithConfiguration: .default,
+        delegate: nil,
+        delegateQueue: nil,
     )
 
     enum Endpoint: String, URLConvertible {

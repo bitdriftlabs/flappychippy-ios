@@ -65,7 +65,7 @@ extension ButtonNode: ReplayIdentifiable {
 }
 
 final class FillerNode: SKShapeNode, ReplayIdentifiable {
-    func identify(frame: CGRect) -> AnnotatedView? {
+    func identify(frame _: CGRect) -> AnnotatedView? {
         return .skipped
     }
 }

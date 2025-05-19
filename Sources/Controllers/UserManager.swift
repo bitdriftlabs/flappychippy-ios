@@ -41,7 +41,7 @@ struct PlayerManager {
             name: self.player.name,
             email: self.player.email,
             best: best,
-            registered: self.player.registered
+            registered: self.player.registered,
         )
     }
 
