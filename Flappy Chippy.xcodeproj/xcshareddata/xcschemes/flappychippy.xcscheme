@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5BB004A22DD2565300C4F4EC"
-               BuildableName = "flappychippy.app"
-               BlueprintName = "flappychippy"
-               ReferencedContainer = "container:flappychippy.xcodeproj">
+               BuildableName = "Flappy Chippy.app"
+               BlueprintName = "Flappy Chippy"
+               ReferencedContainer = "container:Flappy Chippy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5BB004A22DD2565300C4F4EC"
-            BuildableName = "flappychippy.app"
-            BlueprintName = "flappychippy"
-            ReferencedContainer = "container:flappychippy.xcodeproj">
+            BuildableName = "Flappy Chippy.app"
+            BlueprintName = "Flappy Chippy"
+            ReferencedContainer = "container:Flappy Chippy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5BB004A22DD2565300C4F4EC"
-            BuildableName = "flappychippy.app"
-            BlueprintName = "flappychippy"
-            ReferencedContainer = "container:flappychippy.xcodeproj">
+            BuildableName = "Flappy Chippy.app"
+            BlueprintName = "Flappy Chippy"
+            ReferencedContainer = "container:Flappy Chippy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

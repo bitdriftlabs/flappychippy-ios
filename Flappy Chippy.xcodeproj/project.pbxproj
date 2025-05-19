@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		5BB004A32DD2565300C4F4EC /* flappychippy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flappychippy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BB004A32DD2565300C4F4EC /* Flappy Chippy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flappy Chippy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5B8C5D432DD908C300266424 /* Exceptions for "Sources" folder in "flappychippy" target */ = {
+		5B8C5D432DD908C300266424 /* Exceptions for "Sources" folder in "Flappy Chippy" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Constants.swift.example,
 			);
-			target = 5BB004A22DD2565300C4F4EC /* flappychippy */;
+			target = 5BB004A22DD2565300C4F4EC /* Flappy Chippy */;
 		};
-		5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "flappychippy" target */ = {
+		5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "Flappy Chippy" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 5BB004A22DD2565300C4F4EC /* flappychippy */;
+			target = 5BB004A22DD2565300C4F4EC /* Flappy Chippy */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -36,7 +36,7 @@
 		5BF1CE4D2DD3217700F79D05 /* Sources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5B8C5D432DD908C300266424 /* Exceptions for "Sources" folder in "flappychippy" target */,
+				5B8C5D432DD908C300266424 /* Exceptions for "Sources" folder in "Flappy Chippy" target */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -44,7 +44,7 @@
 		5BF1CE802DD3232700F79D05 /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "flappychippy" target */,
+				5BF1CE822DD323F300F79D05 /* Exceptions for "Resources" folder in "Flappy Chippy" target */,
 			);
 			explicitFolders = (
 				fonts,
@@ -79,7 +79,7 @@
 		5BB004A42DD2565300C4F4EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5BB004A32DD2565300C4F4EC /* flappychippy.app */,
+				5BB004A32DD2565300C4F4EC /* Flappy Chippy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,9 +87,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5BB004A22DD2565300C4F4EC /* flappychippy */ = {
+		5BB004A22DD2565300C4F4EC /* Flappy Chippy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BB004BA2DD2565400C4F4EC /* Build configuration list for PBXNativeTarget "flappychippy" */;
+			buildConfigurationList = 5BB004BA2DD2565400C4F4EC /* Build configuration list for PBXNativeTarget "Flappy Chippy" */;
 			buildPhases = (
 				5BB0049F2DD2565300C4F4EC /* Sources */,
 				5BB004A02DD2565300C4F4EC /* Frameworks */,
@@ -104,11 +104,11 @@
 				5BF1CE4D2DD3217700F79D05 /* Sources */,
 				5BF1CE802DD3232700F79D05 /* Resources */,
 			);
-			name = flappychippy;
+			name = "Flappy Chippy";
 			packageProductDependencies = (
 			);
 			productName = flappychippy;
-			productReference = 5BB004A32DD2565300C4F4EC /* flappychippy.app */;
+			productReference = 5BB004A32DD2565300C4F4EC /* Flappy Chippy.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +126,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5BB0049E2DD2565300C4F4EC /* Build configuration list for PBXProject "flappychippy" */;
+			buildConfigurationList = 5BB0049E2DD2565300C4F4EC /* Build configuration list for PBXProject "Flappy Chippy" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -142,7 +142,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5BB004A22DD2565300C4F4EC /* flappychippy */,
+				5BB004A22DD2565300C4F4EC /* Flappy Chippy */,
 			);
 		};
 /* End PBXProject section */
@@ -294,7 +294,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 33XQXT255C;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -334,7 +334,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 33XQXT255C;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -370,7 +370,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5BB0049E2DD2565300C4F4EC /* Build configuration list for PBXProject "flappychippy" */ = {
+		5BB0049E2DD2565300C4F4EC /* Build configuration list for PBXProject "Flappy Chippy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BB004B82DD2565400C4F4EC /* Debug */,
@@ -379,7 +379,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BB004BA2DD2565400C4F4EC /* Build configuration list for PBXNativeTarget "flappychippy" */ = {
+		5BB004BA2DD2565400C4F4EC /* Build configuration list for PBXNativeTarget "Flappy Chippy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BB004BB2DD2565400C4F4EC /* Debug */,
