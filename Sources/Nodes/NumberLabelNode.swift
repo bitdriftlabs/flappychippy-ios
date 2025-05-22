@@ -39,7 +39,7 @@ final class NumberLabelNode: SKNode {
         let mid = CGFloat(value.count) / 2
 
         self.children.forEach { $0.removeFromParent() }
-        for (i, digit) in String(value).enumerated() {
+        for (i, digit) in String(value).reversed().enumerated() {
             let node = SKSpriteNode(texture: Self.textures[digit.wholeNumberValue ?? 0])
             node.position.x = node.size.width * (mid - CGFloat(i) - 0.5)
             self.addChild(node)
