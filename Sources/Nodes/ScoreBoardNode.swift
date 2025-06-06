@@ -21,8 +21,8 @@ final class ScoreBoardNode: SKNode {
         self.bestLabel.value = best
         self.scoreLabel.value = score
 
-        if let ranking {
-            self.medal.isHidden = ranking < 0 || ranking > 2
+        if let ranking, ranking >= 0 && ranking < 3 {
+            self.medal.isHidden = false
             self.medal.texture = self.medalTextures[ranking]
         } else {
             self.medal.isHidden = true
